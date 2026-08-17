@@ -232,15 +232,12 @@ jobs:
           #git checkout bf285bad4866f6ca4aff6cc773386677b0d2ca93
           #cd ..
           # git clone https://github.com/tan666000/nomount.git
-          git clone https://github.com/tan666111/yuanmokuai.git
-          git clone https://github.com/tan666000/GKI_KernelSU_SUSFS.git zzh_patch
+          # git clone https://github.com/tan666111/yuanmokuai.git
+          git clone https://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@github.com/tan666000/GKI_KernelSU_SUSFS.git zzh_patch
           git clone https://github.com/Numbersf/Action-Build.git --depth=1
           # git clone  https://github.com/zzh20188/GKI_KernelSU_SUSFS.git zzh_patch
           git clone -b master https://github.com/tan666111/momo.git
           # git clone -b dev https://github.com/tan666000/nomount.git
-          git clone https://github.com/tan666111/mmmmm.git
-          git clone https://github.com/tan666111/mmmm.git
-          git clone  https://github.com/tan666111/mmmmmm.git
           # git clone https://github.com/chicknsoup/kernel_patches.git
           # git clone -b v3.1 https://github.com/tan666000/gkiboot.git
           git clone -b cpu2 https://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@github.com/tan666000/gkiboot.git cpu2
@@ -250,7 +247,7 @@ jobs:
           git clone https://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@github.com/tan666000/cpumei.git
           git clone https://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@github.com/tan666000/metis.git
           git clone https://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@github.com/tan666000/congdingxiang.git
-          
+          git clone https://github.com/tan666222/cpu2
       - name: 设置 CONFIG 环境变量
         run: |
           # Set CONFIG dynamically based on inputs values
