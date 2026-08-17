@@ -218,12 +218,9 @@ jobs:
           #git fetch --depth 1 origin "$SUSFS_COMMIT"
           #git checkout "$SUSFS_COMMIT"
           #cd ..
-          # git clone https://github.com/WildKernels/kernel_patches.git
-          git clone https://github.com/Ante0/kernel_patches.git
+          git clone https://github.com/WildKernels/kernel_patches.git
           git clone https://github.com/ShirkNeko/SukiSU_patch.git
-          # git clone https://github.com/tan666000/nom.git
-          git clone https://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@github.com/tan666000/nom.git
-          # next修复补丁
+          
           # git clone https://github.com/tan666000/Super-Builders.git
           # git clone https://github.com/maxsteeel/nomount.git
           git clone -b dev https://github.com/maxsteeel/nomount.git
@@ -231,14 +228,9 @@ jobs:
           #git fetch --depth 1 origin bf285bad4866f6ca4aff6cc773386677b0d2ca93
           #git checkout bf285bad4866f6ca4aff6cc773386677b0d2ca93
           #cd ..
-          # git clone https://github.com/tan666000/nomount.git
-          # git clone https://github.com/tan666111/yuanmokuai.git
           git clone https://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@github.com/tan666000/GKI_KernelSU_SUSFS.git zzh_patch
           git clone https://github.com/Numbersf/Action-Build.git --depth=1
           # git clone  https://github.com/zzh20188/GKI_KernelSU_SUSFS.git zzh_patch
-          # git clone -b master https://github.com/tan666111/momo.git
-          # git clone -b dev https://github.com/tan666000/nomount.git
-          # git clone https://github.com/chicknsoup/kernel_patches.git
           # git clone -b v3.1 https://github.com/tan666000/gkiboot.git
           # git clone -b cpu2 https://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@github.com/tan666000/gkiboot.git cpu2
           git clone -b v3.1 https://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@github.com/tan666000/gkiboot.git bootid
