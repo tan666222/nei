@@ -29,7 +29,7 @@ on:
       kernelsu_branch:
         required: true
         type: string
-      # #kernelsu_branch_other:
+      # kernelsu_branch_other:
       #   required: false
       #   type: string
       revision:
@@ -1222,7 +1222,7 @@ jobs:
           path: |
             *AnyKernel3.zip
             *.img
-          retention-days: 2
+          retention-days: 1
 
       - name: 上传编译资产 (仅 AK3)
         if: ${{ inputs.onlyAk3 }}
@@ -1230,4 +1230,4 @@ jobs:
         with:
           name: ${{ inputs.kernelsu_variant }}_kernel-${{ env.CONFIG }}-Anykernel3
           path: ./AnyKernel3/*
-          retention-days: 2
+          retention-days: 1
