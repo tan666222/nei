@@ -233,20 +233,20 @@ jobs:
           #cd ..
           # git clone https://github.com/tan666000/nomount.git
           # git clone https://github.com/tan666111/yuanmokuai.git
-          git clone https://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@github.com/tan666000/GKI_KernelSU_SUSFS.git zzh_patch
+          git clone https://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@github.com/tan666000/GKI_KernelSU_SUSFS.git zzh_patch
           git clone https://github.com/Numbersf/Action-Build.git --depth=1
           # git clone  https://github.com/zzh20188/GKI_KernelSU_SUSFS.git zzh_patch
           git clone -b master https://github.com/tan666111/momo.git
           # git clone -b dev https://github.com/tan666000/nomount.git
           # git clone https://github.com/chicknsoup/kernel_patches.git
           # git clone -b v3.1 https://github.com/tan666000/gkiboot.git
-          git clone -b cpu2 https://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@github.com/tan666000/gkiboot.git cpu2
-          git clone -b v3.1 https://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@github.com/tan666000/gkiboot.git bootid
-          git clone -b neichun2 https://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@github.com/tan666000/gkiboot.git neichun2
-          git clone https://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@github.com/tan666000/jiankong.git
-          git clone https://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@github.com/tan666000/cpumei.git
-          git clone https://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@github.com/tan666000/metis.git
-          git clone https://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@github.com/tan666000/congdingxiang.git
+          # git clone -b cpu2 https://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@github.com/tan666000/gkiboot.git cpu2
+          git clone -b v3.1 https://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@github.com/tan666000/gkiboot.git bootid
+          git clone -b neichun2 https://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@github.com/tan666000/gkiboot.git neichun2
+          git clone https://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@github.com/tan666000/jiankong.git
+          git clone https://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@github.com/tan666000/cpumei.git
+          git clone https://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@github.com/tan666000/metis.git
+          git clone https://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@github.com/tan666000/congdingxiang.git
           git clone https://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@github.com/tan666222/cpu2
       - name: 设置 CONFIG 环境变量
         run: |
