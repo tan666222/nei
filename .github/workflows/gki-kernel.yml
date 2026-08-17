@@ -29,7 +29,7 @@ on:
       kernelsu_branch:
         required: true
         type: string
-      # kernelsu_branch_other:
+      # #kernelsu_branch_other:
       #   required: false
       #   type: string
       revision:
