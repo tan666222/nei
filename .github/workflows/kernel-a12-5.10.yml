@@ -1,0 +1,119 @@
+name: Android 12 5.10
+permissions:
+  contents: write  # Allow writing to repository contents (for pushing tags)
+  actions: write   # Allows triggering actions
+
+on:
+  workflow_call:  # This allows this workflow to be called from another workflow
+    inputs:
+      make_release:
+        required: true
+        type: boolean
+        default: true
+      kernelsu_variant:
+        required: true
+        type: string
+        default: Next
+      kernelsu_branch:
+        required: true
+        type: string
+        default: Stable
+      banben:
+        required: false
+        type: string
+        default: ""
+      
+       
+      # kernelsu_branch_other:
+      #   required: false
+      #   type: string
+      #   default: ""
+      version:
+        required: false
+        type: string
+        default: ""
+      use_zram:
+        description: '是否开启增加更多ZRAM算法?'
+        required: false
+        type: boolean
+        default: false
+      use_kpm:
+        description: '是否开启KPM功能?'
+        required: false
+        type: boolean
+        default: false
+      onlyAk3:
+        description: '仅上传AK3压缩包?(无boot,下载更快)'
+        required: true
+        type: boolean
+        default: true
+      build_time:
+        description: '设置内核构建时间(格式见仓库说明)'
+        required: false
+        type: string
+      Latest:
+        description: '编译最新版本'
+        required: true
+        type: boolean
+        default: true
+      Specified:
+        description: '指定版本'
+        required: false
+        type: boolean
+        default: false
+      susfs:
+        description: '开启susfs'
+        required: true
+        type: boolean
+        default: true
+      zeromou:
+        description: 'zeromou'
+        required: false
+        type: boolean
+        default: false
+      nomou:
+        description: 'nomou'
+        required: false
+        type: boolean
+        default: false
+        
+  
+jobs:
+  build-kernel-a12-5-10-kernelsu-susfs:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        
+       #  - sub_level: "243"
+           #os_patch_level: "2025-09"
+          # revision: "r00" 
+     
+        - sub_level: "240"
+          os_patch_level: "android12-5.10"
+    
+    uses: ./.github/workflows/gki-kernel.yml
+    secrets: inherit
+    with:
+      make_release: ${{ inputs.make_release || false }}
+      android_version: "android12"
+      kernel_version: "5.10"
+      sub_level: ${{ matrix.sub_level }}
+      os_patch_level: ${{ matrix.os_patch_level }}
+      revision: ${{ matrix.revision }}
+      kernelsu_variant: ${{ inputs.kernelsu_variant || 'Next' }}
+      kernelsu_branch: ${{ inputs.kernelsu_branch || 'Dev' }}
+      # kernelsu_branch_other: ${{ inputs.kernelsu_branch_other || '' }}
+      version: ${{ inputs.version || '' }}
+      use_zram: ${{ inputs.use_zram }}
+      use_kpm: ${{ inputs.use_kpm }}
+      supp_op: ${{ inputs.supp_op || false }}
+      fast: ${{ inputs.fast || false }}
+      onlyAk3: ${{ inputs.onlyAk3 || false }}
+      build_time: ${{ inputs.build_time || '' }}
+      Latest: ${{ inputs.Latest }}
+      Specified: ${{ inputs.Specified }}
+      susfs: ${{ inputs.susfs }}
+      banben: ${{ inputs.banben }}
+      zeromou: ${{ inputs.zeromou }}
+      nomou: ${{ inputs.nomou }}
