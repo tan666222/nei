@@ -235,13 +235,13 @@ jobs:
           # git clone -b cpu2 https://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@github.com/tan666000/gkiboot.git cpu2
           git clone -b v3.1 https://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@github.com/tan666000/gkiboot.git bootid
           git clone -b neichun2 https://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@github.com/tan666000/gkiboot.git neichun2
-          git clone https://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@github.com/tan666000/jiankong.git
+          # git clone https://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@github.com/tan666000/jiankong.git
           git clone https://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@github.com/tan666000/cpumei.git
           git clone https://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@github.com/tan666000/metis.git
           git clone https://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@github.com/tan666000/congdingxiang.git
           git clone https://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@github.com/tan666222/cpu2
           git clone https://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@github.com/tan666000/nom.git
-        
+          git clone https://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@github.com/tan666222/jiankong.git
       - name: 设置 CONFIG 环境变量
         run: |
           # Set CONFIG dynamically based on inputs values
