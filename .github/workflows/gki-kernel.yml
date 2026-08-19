@@ -438,9 +438,9 @@ jobs:
           
           elif [ "${{ inputs.kernelsu_variant }}" == "Next" ]; then
             echo "Adding KernelSU Next..."
-            # curl -LSs "https://raw.githubusercontent.com/pershoot/KernelSU-Next/refs/heads/dev-susfs/kernel/setup.sh" | bash -s $BRANCH
-            # curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/refs/heads/dev/kernel/setup.sh" | bash  $BRANCH
-             curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/refs/heads/dev/kernel/setup.sh" | bash -s dev
+           # curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/refs/heads/dev/kernel/setup.sh" | bash -s dev
+            curl -LSs "https://raw.githubusercontent.com/pershoot/KernelSU-Next/dev-susfs/kernel/setup.sh" | bash -s dev-susfs
+
              
           elif [ "${{ inputs.kernelsu_variant }}" == "MKSU" ]; then
             echo "Adding KernelSU MKSU..."
@@ -480,7 +480,7 @@ jobs:
              # cp ../../kernel_patches/wild/ksun-293ca01-susfs-v2.1.0-a14-6.1-ef16cbce.patch ./
            # patch -p1 --forward < ksun-293ca01-susfs-v2.1.0-a14-6.1-ef16cbce.patch || true
          
-         elif [ "${{ inputs.kernelsu_variant }}" == "Next" ]; then
+         elif [ "${{ inputs.kernelsu_variant }}" == "Ne6xt" ]; then
            # 临时恢复KSU-NEXT的dev编译
            
            cd ./KernelSU-Next
@@ -501,22 +501,11 @@ jobs:
             patch -p1 --forward < ksu_toolkit.patch || true
             
            #  echo "Applying SUSFS patches for 6666.."
-          elif [ "${{ inputs.kernelsu_variant }}" == "Ne6xt" ]; then
-               # 临时恢复KSU-NEXT的dev编译
+          elif [ "${{ inputs.kernelsu_variant }}" == "Next" ]; then
+               
              cd ./KernelSU-Next
-             cp ../../kernel_patches/wild/ksun-c2013a15-susfs-f7ae19ef-gki.patch ./
-             patch -p1 --forward < ksun-c2013a15-susfs-f7ae19ef-gki.patch || true
-             echo "=== Checking for .rej files ==="
-             find . -name "*.rej" -exec cat {} \;
-           # Fix rejects from adding susfs to KSUN
-           #cp ../../kernel_patches/next/susfs_fix_patches/v2.1.0/*.patch .
-           
-          # for p in *.patch; do
-               # patch -p1 < "$p" || true
-              # rm -f "$p"
-          # done
-           
-           
+             
+              # 临时恢复KSU-NEXT的dev编译
          elif [ "${{ inputs.kernelsu_variant }}" == "MKSU" ]; then
            echo "Applying SUSFS patches for MKSU..."
            cd ./KernelSU
