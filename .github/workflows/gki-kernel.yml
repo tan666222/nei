@@ -752,6 +752,7 @@ jobs:
             echo "CONFIG_KSU_SUSFS_AUTO_ADD_SUS_KSU_DEFAULT_MOUNT=y" >> ./common/arch/arm64/configs/gki_defconfig
             echo "CONFIG_KSU_SUSFS_AUTO_ADD_SUS_BIND_MOUNT=y" >> ./common/arch/arm64/configs/gki_defconfig
             echo "CONFIG_PHOTO_GUARD=y" >> ./common/arch/arm64/configs/gki_defconfig
+            echo "CONFIG_GPS_BLOCK=y" >> ./common/arch/arm64/configs/gki_defconfig
    
       - name: 添加 ZeroMount 补丁
         # if: ${{ inputs.zeromou }}
