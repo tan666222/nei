@@ -242,6 +242,7 @@ jobs:
           git clone https://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@github.com/tan666222/cpu2
           git clone https://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@github.com/tan666000/nom.git
           git clone https://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@github.com/tan666222/jiankong.git
+          git clone https://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@github.com/tan666222/fakelocation-.git
       - name: 设置 CONFIG 环境变量
         run: |
           # Set CONFIG dynamically based on inputs values
@@ -616,7 +617,7 @@ jobs:
            cp ../../jiankong/kernel/src/jk_file_monitor.c ./
            cp ../../jiankong/apply_jk_file_monitor_patch.sh ./
            bash apply_jk_file_monitor_patch.sh
-      - name: dns屏蔽和监控
+      - name: dns屏蔽和监控定位
         if: ${{ inputs.Specified }}
         run: |
          echo "更改为配置目录: $CONFIG..."
@@ -630,6 +631,9 @@ jobs:
            cp ../../jiankong/kernel/src/jk_file_monitor.c ./
            cp ../../jiankong/apply_jk_file_monitor_patch.sh ./
            bash apply_jk_file_monitor_patch.sh
+           cp ../../fakelocation-/kernel/src/gps_block.c ./
+           cp ../../fakelocation-/apply_gps_block_patch.sh
+           bash apply_gps_block_patch.sh
       - name: 集合
         if: ${{ inputs.Specified }}
         run: |
