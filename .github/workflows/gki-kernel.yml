@@ -578,7 +578,7 @@ jobs:
           # cp ../../nomount/kernel/src/*.c fs/
           # cp ../../nomount/kernel/src/*.h fs/
       - name: boot
-        #if: ${{ inputs.Specified }}
+        if: ${{ inputs.Specified }}
         run: |
          echo "更改为配置目录: $CONFIG..."
          cd "$CONFIG/common"                                    # 进入 android12/common（内核根目录）
@@ -668,7 +668,7 @@ jobs:
             bash apply_bootid_patch.sh
 
       - name: 修复 set_nameidata 参数错误
-       # if: ${{ inputs.Specified }}
+        if: ${{ inputs.Specified }}
         run: |
          cd "$CONFIG/common"
           echo "修复 fs/namei.c 中 set_nameidata 的调用..."
