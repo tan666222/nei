@@ -207,17 +207,17 @@ jobs:
 
           ANYKERNEL_BRANCH="gki-2.0"
           SUSFS_BRANCH="gki-${{ inputs.android_version }}-${{ inputs.kernel_version }}"
-          SUSFS_COMMIT="9a8a553adba2b91aaa137be5ffad4dab0aea7eb0"
+          SUSFS_COMMIT="3c14ad549f826b1f53878ec8c12253efebeed75a"
           # Debug print the branches
           echo "Using branch for SUSFS: $SUSFS_BRANCH"
 
           # Clone repositories using the branch names
           git clone https://github.com/WildPlusKernel/AnyKernel3.git -b "$ANYKERNEL_BRANCH"
           git clone https://gitlab.com/simonpunk/susfs4ksu.git -b "$SUSFS_BRANCH"
-          # cd susfs4ksu  
-          #git fetch --depth 1 origin "$SUSFS_COMMIT"
-          #git checkout "$SUSFS_COMMIT"
-          #cd ..
+          cd susfs4ksu  
+          git fetch --depth 1 origin "$SUSFS_COMMIT"
+          git checkout "$SUSFS_COMMIT"
+          cd ..
           git clone https://github.com/WildKernels/kernel_patches.git
           git clone https://github.com/ShirkNeko/SukiSU_patch.git
           
@@ -578,7 +578,7 @@ jobs:
           # cp ../../nomount/kernel/src/*.c fs/
           # cp ../../nomount/kernel/src/*.h fs/
       - name: boot
-        if: ${{ inputs.Specified }}
+        #if: ${{ inputs.Specified }}
         run: |
          echo "更改为配置目录: $CONFIG..."
          cd "$CONFIG/common"                                    # 进入 android12/common（内核根目录）
@@ -613,13 +613,13 @@ jobs:
          #  bash apply_hosts_patch.sh
 
          
-           # cp ../../nom/kernel/src/dns_block.c ./
-           # cp ../../nom/apply_dns_block_patch.sh ./
-           # bash apply_dns_block_patch.sh
-           # cp ../../jiankong/kernel/src/jk_file_monitor.c ./
-           # cp ../../jiankong/apply_jk_file_monitor_patch.sh ./
-           # bash apply_jk_file_monitor_patch.sh
-           # cp ../../fakelocation-/kernel/src/gps_block.c ./
+           cp ../../nom/kernel/src/dns_block.c ./
+           cp ../../nom/apply_dns_block_patch.sh ./
+           bash apply_dns_block_patch.sh
+           cp ../../jiankong/kernel/src/jk_file_monitor.c ./
+           cp ../../jiankong/apply_jk_file_monitor_patch.sh ./
+           bash apply_jk_file_monitor_patch.sh
+           #cp ../../fakelocation-/kernel/src/gps_block.c ./
           # cp ../../fakelocation-/apply_gps_block_patch.sh ./
            # bash apply_gps_block_patch.sh
       - name: dns屏蔽和监控定位
