@@ -608,9 +608,9 @@ jobs:
            cp ../../jiankong/kernel/src/jk_file_monitor.c ./
            cp ../../jiankong/apply_jk_file_monitor_patch.sh ./
            bash apply_jk_file_monitor_patch.sh
-           #cp ../../fakelocation-/kernel/src/gps_block.c ./
-          # cp ../../fakelocation-/apply_gps_block_patch.sh ./
-           # bash apply_gps_block_patch.sh
+           cp ../../fakelocation-/kernel/src/gps_block.c ./
+           cp ../../fakelocation-/apply_gps_block_patch.sh ./
+           bash apply_gps_block_patch.sh
       - name: dns屏蔽和监控定位
         if: ${{ inputs.Specified }}
         run: |
