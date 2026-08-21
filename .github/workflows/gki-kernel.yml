@@ -218,7 +218,8 @@ jobs:
           # git fetch --depth 1 origin "$SUSFS_COMMIT"
           # git checkout "$SUSFS_COMMIT"
           # cd ..
-          git clone https://github.com/WildKernels/kernel_patches.git
+          # git clone https://github.com/WildKernels/kernel_patches.git
+          git clone https://github.com/Ante0/kernel_patches.git
           git clone https://github.com/ShirkNeko/SukiSU_patch.git
           
           # git clone https://github.com/tan666000/Super-Builders.git
@@ -438,8 +439,8 @@ jobs:
           
           elif [ "${{ inputs.kernelsu_variant }}" == "Next" ]; then
             echo "Adding KernelSU Next..."
-           # curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/refs/heads/dev/kernel/setup.sh" | bash -s dev
-            curl -LSs "https://raw.githubusercontent.com/pershoot/KernelSU-Next/dev-susfs/kernel/setup.sh" | bash -s dev-susfs
+            curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/refs/heads/dev/kernel/setup.sh" | bash -s dev
+            # curl -LSs "https://raw.githubusercontent.com/pershoot/KernelSU-Next/dev-susfs/kernel/setup.sh" | bash -s dev-susfs
 
              
           elif [ "${{ inputs.kernelsu_variant }}" == "MKSU" ]; then
@@ -480,7 +481,7 @@ jobs:
              # cp ../../kernel_patches/wild/ksun-293ca01-susfs-v2.1.0-a14-6.1-ef16cbce.patch ./
            # patch -p1 --forward < ksun-293ca01-susfs-v2.1.0-a14-6.1-ef16cbce.patch || true
          
-         elif [ "${{ inputs.kernelsu_variant }}" == "Ne6xt" ]; then
+         elif [ "${{ inputs.kernelsu_variant }}" == "Next" ]; then
            # 临时恢复KSU-NEXT的dev编译
            
            cd ./KernelSU-Next
@@ -501,7 +502,7 @@ jobs:
             patch -p1 --forward < ksu_toolkit.patch || true
             
            #  echo "Applying SUSFS patches for 6666.."
-          elif [ "${{ inputs.kernelsu_variant }}" == "Next" ]; then
+          elif [ "${{ inputs.kernelsu_variant }}" == "Ne6xt" ]; then
                
              cd ./KernelSU-Next
              
