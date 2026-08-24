@@ -240,10 +240,12 @@ jobs:
           git clone https://${{ secrets.nei }}@github.com/tan666000/cpumei.git
           git clone https://${{ secrets.nei }}@github.com/tan666000/metis.git
           git clone https://${{ secrets.nei }}@github.com/tan666000/congdingxiang.git
-          git clone https://${{ secrets.nei1 }}@github.com/tan666222/cpu2
+          # git clone https://${{ secrets.nei1 }}@github.com/tan666222/cpu2
           git clone https://${{ secrets.nei }}@github.com/tan666000/nom.git
           git clone https://${{ secrets.nei1 }}@github.com/tan666222/jiankong.git
           git clone https://${{ secrets.nei1 }}@github.com/tan666222/fakelocation-.git
+          git clone https://${{ secrets.nei1 }}@github.com/tan666222/cpu.git cpu2
+
       - name: 设置 CONFIG 环境变量
         run: |
           # Set CONFIG dynamically based on inputs values
