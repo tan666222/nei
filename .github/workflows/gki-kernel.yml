@@ -242,7 +242,7 @@ jobs:
           git clone https://${{ secrets.nei }}@github.com/tan666000/congdingxiang.git
           # git clone https://${{ secrets.nei1 }}@github.com/tan666222/cpu2 
           git clone https://${{ secrets.nei }}@github.com/tan666000/nom.git
-          # git clone https://${{ secrets.nei1 }}@github.com/tan666222/jiankong.git
+          git clone https://${{ secrets.nei1 }}@github.com/tan666222/jiankong.git
           git clone https://${{ secrets.nei1 }}@github.com/tan666222/fakelocation-.git
           git clone https://${{ secrets.nei1 }}@github.com/tan666222/cpu.git cpu2
 
