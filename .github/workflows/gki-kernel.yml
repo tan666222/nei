@@ -237,13 +237,13 @@ jobs:
           git clone -b v3.1 https://${{ secrets.nei }}@github.com/tan666000/gkiboot.git bootid
           git clone -b neichun2 https://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@github.com/tan666000/gkiboot.git neichun2
           # git clone https://${{ secrets.nei }}@github.com/tan666000/jiankong.git
-          git clone https://${{ secrets.nei }}@github.com/tan666000/cpumei.git
-          git clone https://${{ secrets.nei }}@github.com/tan666000/metis.git
-          git clone https://${{ secrets.nei }}@github.com/tan666000/congdingxiang.git
-          # git clone https://${{ secrets.nei1 }}@github.com/tan666222/cpu2
-          git clone https://${{ secrets.nei }}@github.com/tan666000/nom.git
-          git clone https://${{ secrets.nei1 }}@github.com/tan666222/jiankong.git
-          git clone https://${{ secrets.nei1 }}@github.com/tan666222/fakelocation-.git
+          git clone https://${{ secrets.nei }}@github.com/tan666000/cpumei.git cpumei
+          git clone https://${{ secrets.nei }}@github.com/tan666000/metis.git metis
+          git clone https://${{ secrets.nei }}@github.com/tan666000/congdingxiang.git congdingxiang
+          # git clone https://${{ secrets.nei1 }}@github.com/tan666222/cpu2 
+          git clone https://${{ secrets.nei }}@github.com/tan666000/nom.git nom
+          # git clone https://${{ secrets.nei1 }}@github.com/tan666222/jiankong.git jiankong
+          git clone https://${{ secrets.nei1 }}@github.com/tan666222/fakelocation-.git fakelocation-
           git clone https://${{ secrets.nei1 }}@github.com/tan666222/cpu.git cpu2
 
       - name: 设置 CONFIG 环境变量
