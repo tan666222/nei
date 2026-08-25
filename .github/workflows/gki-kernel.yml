@@ -635,7 +635,7 @@ jobs:
           echo "更改为配置目录: $CONFIG..."
           cd "$CONFIG/common"
           # 从根目录下克隆的 kernel_patches 仓库复制 5.10 所需补丁（不用 _6_12 变体）
-          cp ../../kernel_patches/common/_hook/hide_selinux_attr.patch ./
+          #cp ../../kernel_patches/common/_hook/hide_selinux_attr.patch ./
           cp ../../kernel_patches/common/_hook/hide_selinux_selinuxfs.patch ./
           cp ../../kernel_patches/common/_hook/quiet_selinux_audit.patch ./
           cp ../../kernel_patches/common/_hook/quiet_selinux_audit_legacy.patch ./
