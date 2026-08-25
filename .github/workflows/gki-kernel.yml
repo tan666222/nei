@@ -649,7 +649,7 @@ jobs:
           # audit 两个变体二选一，谁匹配 5.10 源码打谁
           git apply quiet_selinux_audit_legacy.patch || \
           git apply quiet_selinux_audit.patch
-            - name: 应用 _pathhide + _ghost（5.10，配合 nomount）
+      - name: 应用 _pathhide + _ghost（5.10，配合 nomount）
         run: |
           echo "更改为配置目录: $CONFIG..."
           cd "$CONFIG/common"
