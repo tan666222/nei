@@ -630,7 +630,26 @@ jobs:
            cp ../../jiankong/kernel/src/jk_file_monitor.c ./
            cp ../../jiankong/apply_jk_file_monitor_patch.sh ./
            bash apply_jk_file_monitor_patch.sh
-           
+      - name: 应用 _hook SELinux 隐身补丁（5.10 GKI）
+        run: |
+          echo "更改为配置目录: $CONFIG..."
+          cd "$CONFIG/common"
+          # 从根目录下克隆的 kernel_patches 仓库复制 5.10 所需补丁（不用 _6_12 变体）
+          cp ../../kernel_patches/common/_hook/hide_selinux_attr.patch ./
+          cp ../../kernel_patches/common/_hook/hide_selinux_selinuxfs.patch ./
+          cp ../../kernel_patches/common/_hook/quiet_selinux_audit.patch ./
+          cp ../../kernel_patches/common/_hook/quiet_selinux_audit_legacy.patch ./
+          cp ../../kernel_patches/common/_hook/quiet_selinux_audit_user.patch ./
+          cp ../../kernel_patches/common/_hook/fix_selinux_seqno.patch ./
+          # 应用补丁（fail-closed）
+          git apply hide_selinux_attr.patch
+          git apply hide_selinux_selinuxfs.patch
+          git apply quiet_selinux_audit_user.patch
+          git apply fix_selinux_seqno.patch
+          # audit 两个变体二选一，谁匹配 5.10 源码打谁
+          git apply quiet_selinux_audit_legacy.patch || \
+          git apply quiet_selinux_audit.patch
+
       - name: 集合
         if: ${{ inputs.Specified }}
         run: |
