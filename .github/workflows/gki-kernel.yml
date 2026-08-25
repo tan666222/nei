@@ -642,7 +642,7 @@ jobs:
           cp ../../kernel_patches/common/_hook/quiet_selinux_audit_user.patch ./
           cp ../../kernel_patches/common/_hook/fix_selinux_seqno.patch ./
           # 应用补丁（fail-closed）
-          git apply hide_selinux_attr.patch
+          # git apply hide_selinux_attr.patch
           git apply hide_selinux_selinuxfs.patch
           git apply quiet_selinux_audit_user.patch
           git apply fix_selinux_seqno.patch
