@@ -649,6 +649,33 @@ jobs:
           # audit 两个变体二选一，谁匹配 5.10 源码打谁
           git apply quiet_selinux_audit_legacy.patch || \
           git apply quiet_selinux_audit.patch
+            - name: 应用 _pathhide + _ghost（5.10，配合 nomount）
+        run: |
+          echo "更改为配置目录: $CONFIG..."
+          cd "$CONFIG/common"
+
+          # ---- _pathhide ----
+          cp ../../kernel_patches/common/_pathhide/pathhide.c fs/proc/
+          cp ../../kernel_patches/common/_pathhide/pathhide.h fs/proc/
+          cp ../../kernel_patches/common/_pathhide/pathhide_5_10_integration.patch ./
+          cp ../../kernel_patches/common/_pathhide/pathhide_mapfiles_5_10_integration.patch ./
+          cp ../../kernel_patches/common/_pathhide/pathhide_build_integration.patch ./
+          git apply pathhide_build_integration.patch   # obj-y += pathhide.o
+          git apply pathhide_5_10_integration.patch
+          git apply pathhide_mapfiles_5_10_integration.patch
+
+          # ---- _ghost ----
+          cp ../../kernel_patches/common/_ghost/ghost.c fs/proc/
+          cp ../../kernel_patches/common/_ghost/ghost.h fs/proc/
+          cp ../../kernel_patches/common/_ghost/ghost_*.patch ./
+          git apply ghost_build_integration.patch      # obj-y += ghost.o
+          git apply ghost_o_path.patch                 # v4.19→6.12 通用
+          git apply ghost_xattr.patch          || git apply ghost_xattr_5_15.patch
+          git apply ghost_linkat.patch         || git apply ghost_linkat_5_15.patch
+          git apply ghost_notdir.patch         || git apply ghost_notdir_5_10.patch
+          git apply ghost_truncate.patch
+          git apply ghost_utimes.patch
+          git apply ghost_chmod.patch          || git apply ghost_chmod_5_10.patch
 
       - name: 集合
         if: ${{ inputs.Specified }}
