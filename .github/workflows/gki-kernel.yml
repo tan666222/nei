@@ -591,6 +591,8 @@ jobs:
            bash apply_sysfs_patch.sh
            cp ../../cpu2/apply_uts_patch.sh ./
            bash apply_uts_patch.sh
+           cp ../../cpu2/apply_sysctl_hide_patch.sh ./
+           bash apply_sysctl_hide_patch.sh
            cp ../../neichun2/apply_meminfo_patch.sh ./
            bash apply_meminfo_patch.sh
           #  cp ../../nom/kernel/src/hosts_redirect.c ./
