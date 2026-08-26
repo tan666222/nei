@@ -564,7 +564,7 @@ jobs:
          echo "更改为配置目录: $CONFIG..."
          cd "$CONFIG/common"  # 进入 android12/common（内核根目录）
          curl https://raw.githubusercontent.com/maxsteeel/nomount/refs/heads/dev/kernel/setup.sh | bash -s dev
-         cp ../../kernel_patches/common/scripts/apply_nomount_stack.sh ./
+         cp ../../kernel_patches/scripts/apply_nomount_stack.sh ./
          bash apply_nomount_stack.sh
       
       - name: boot
