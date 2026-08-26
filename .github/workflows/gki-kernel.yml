@@ -568,31 +568,32 @@ jobs:
         if: ${{ inputs.nomou }}
         run: |
            echo "更改为配置目录: $CONFIG..."
-           cd "$CONFIG/common"  # 进入内核根目录
+           cd "$CONFIG/common"
 
            export COMMON_KERNEL_FOLDER="$PWD"
-           export KERNEL_VER="5.10"  # 根据实际版本修改
+           export KERNEL_VER="5.10"
            export BOUTEILLE_KERNEL_PATCHES_FOLDER="$GITHUB_WORKSPACE/kernel_patches"
+           # ✅ ReSukiSU 的 setup.sh 克隆到 $CONFIG/KernelSU
+           export KSU_FOLDER="$CONFIG/KernelSU"
 
-           # ✅ 关键修改：KSU_FOLDER 指向内核源码根目录（因为 ReSukiSU 已集成）
-           export KSU_FOLDER="$COMMON_KERNEL_FOLDER"
+           chmod +x "$BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh"
 
-           # 检查 rules.c 是否存在（确认 ReSukiSU 已集成）
            if [ ! -f "$KSU_FOLDER/kernel/selinux/rules.c" ]; then
                     echo "警告：未找到 kernel/selinux/rules.c，跳过 hook 补丁"
-                    # 跳过 hook，执行其他模式
-                    $BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh hookless
-                    $BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh pathhide
-                    $BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh ghost
-                    $BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh record-version
+                    bash "$BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh" hookless
+                    bash "$BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh" pathhide
+                    bash "$BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh" ghost
+                    bash "$BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh" record-version
            else
-                    # 所有模式都执行
-                    $BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh hookless
-                    $BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh hook
-                    $BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh pathhide
-                    $BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh ghost
-                    $BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh record-version
-           fi  
+                    echo "✅ 找到 rules.c，执行所有补丁"
+                    bash "$BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh" hookless
+                    bash "$BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh" hook
+                    bash "$BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh" pathhide
+                    bash "$BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh" ghost
+                    bash "$BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh" record-version
+           fi
+
+           echo "✅ NoMount 补丁应用完成"
       - name: boot
         #if: ${{ inputs.Specified }}
         run: |
