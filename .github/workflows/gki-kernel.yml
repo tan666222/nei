@@ -563,37 +563,8 @@ jobs:
         run: |
          echo "更改为配置目录: $CONFIG..."
          cd "$CONFIG/common"  # 进入 android12/common（内核根目录）
-         # curl https://raw.githubusercontent.com/maxsteeel/nomount/refs/heads/dev/kernel/setup.sh | bash -s dev
-      - name: 应用 NoMount 补丁
-        if: ${{ inputs.nomou }}
-        run: |
-           echo "更改为配置目录: $CONFIG..."
-           cd "$CONFIG/common"
-
-           export COMMON_KERNEL_FOLDER="$PWD"
-           export KERNEL_VER="5.10"
-           export BOUTEILLE_KERNEL_PATCHES_FOLDER="$GITHUB_WORKSPACE/kernel_patches"
-           # ✅ ReSukiSU 的 setup.sh 克隆到 $CONFIG/KernelSU
-           export KSU_FOLDER="$CONFIG/KernelSU"
-
-           chmod +x "$BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh"
-
-           if [ ! -f "$KSU_FOLDER/kernel/selinux/rules.c" ]; then
-                    echo "警告：未找到 kernel/selinux/rules.c，跳过 hook 补丁"
-                    bash "$BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh" hookless
-                    bash "$BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh" pathhide
-                    bash "$BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh" ghost
-                    bash "$BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh" record-version
-           else
-                    echo "✅ 找到 rules.c，执行所有补丁"
-                    bash "$BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh" hookless
-                    bash "$BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh" hook
-                    bash "$BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh" pathhide
-                    bash "$BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh" ghost
-                    bash "$BOUTEILLE_KERNEL_PATCHES_FOLDER/scripts/apply_nomount_stack.sh" record-version
-           fi
-
-           echo "✅ NoMount 补丁应用完成"
+         curl https://raw.githubusercontent.com/maxsteeel/nomount/refs/heads/dev/kernel/setup.sh | bash -s dev
+      
       - name: boot
         #if: ${{ inputs.Specified }}
         run: |
@@ -656,7 +627,7 @@ jobs:
            cp ../../jiankong/apply_jk_file_monitor_patch.sh ./
            bash apply_jk_file_monitor_patch.sh
       - name: 应用 _hook SELinux 隐身补丁（5.10 GKI）
-        if: ${{ inputs.Specified }}
+        # if: ${{ inputs.Specified }}
         run: |
           echo "更改为配置目录: $CONFIG..."
           cd "$CONFIG/common"
