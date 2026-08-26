@@ -657,12 +657,12 @@ jobs:
           # ---- _pathhide ----
           cp ../../kernel_patches/common/_pathhide/pathhide.c fs/proc/
           cp ../../kernel_patches/common/_pathhide/pathhide.h fs/proc/
-          cp ../../kernel_patches/common/_pathhide/pathhide_5_10_integration.patch ./
-          cp ../../kernel_patches/common/_pathhide/pathhide_mapfiles_5_10_integration.patch ./
+          cp ../../kernel_patches/common/_pathhide/pathhide_5.10_integration.patch ./
+          cp ../../kernel_patches/common/_pathhide/pathhide_mapfiles_5.10_integration.patch ./
           cp ../../kernel_patches/common/_pathhide/pathhide_build_integration.patch ./
           git apply pathhide_build_integration.patch   # obj-y += pathhide.o
-          git apply pathhide_5_10_integration.patch
-          git apply pathhide_mapfiles_5_10_integration.patch
+          git apply pathhide_5.10_integration.patch
+          git apply pathhide_mapfiles_5.10_integration.patch
 
           # ---- _ghost ----
           cp ../../kernel_patches/common/_ghost/ghost.c fs/proc/
