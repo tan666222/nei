@@ -564,11 +564,9 @@ jobs:
          echo "更改为配置目录: $CONFIG..."
          cd "$CONFIG/common"  # 进入 android12/common（内核根目录）
          curl https://raw.githubusercontent.com/maxsteeel/nomount/refs/heads/dev/kernel/setup.sh | bash -s dev
-           # cp ../../nomount/kernel/patches/nomount_5.10_kernel_integration.patch ./   # 复制补丁
-          
-          # patch -p1 --forward < nomount_5.10_kernel_integration.patch         # 应用补丁
-          # cp ../../nomount/kernel/src/*.c fs/
-          # cp ../../nomount/kernel/src/*.h fs/
+         cp ../../kernel_patches/common/scripts/apply_nomount_stack.sh ./
+         bash apply_nomount_stack.sh
+      
       - name: boot
         #if: ${{ inputs.Specified }}
         run: |
@@ -631,6 +629,7 @@ jobs:
            cp ../../jiankong/apply_jk_file_monitor_patch.sh ./
            bash apply_jk_file_monitor_patch.sh
       - name: 应用 _hook SELinux 隐身补丁（5.10 GKI）
+        if: ${{ inputs.Specified }}
         run: |
           echo "更改为配置目录: $CONFIG..."
           cd "$CONFIG/common"
@@ -650,6 +649,7 @@ jobs:
           git apply quiet_selinux_audit_legacy.patch || \
           git apply quiet_selinux_audit.patch
       - name: 应用 _pathhide + _ghost（5.10，配合 nomount）
+        if: ${{ inputs.Specified }}
         run: |
           echo "更改为配置目录: $CONFIG..."
           cd "$CONFIG/common"
