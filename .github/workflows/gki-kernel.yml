@@ -468,8 +468,9 @@ jobs:
          GITHUB_WORKSPACE: ${{ github.workspace }}
         run: |
         
-          bash "$GITHUB_WORKSPACE/kernel_patches/scripts/apply_nomount_stack.sh" all
-      
+          #bash "$GITHUB_WORKSPACE/kernel_patches/scripts/apply_nomount_stack.sh" all
+           bash "$GITHUB_WORKSPACE/kernel_patches/scripts/apply_nomount_stack.sh" hook
+           bash "$GITHUB_WORKSPACE/kernel_patches/scripts/apply_nomount_stack.sh" pathhide
       - name: 为 KernelSU 变体安装 SUSFS 补丁
         if: ${{ inputs.susfs }}
         run: |
@@ -567,8 +568,8 @@ jobs:
           
          patch -p1 --forward < bbr1.patch     # 应用补丁
       - name: 00000丁
-        #if: ${{ inputs.nomou }}
-        if: ${{ inputs.Specified }}
+        if: ${{ inputs.nomou }}
+       # if: ${{ inputs.Specified }}
         run: |
          echo "更改为配置目录: $CONFIG..."
          cd "$CONFIG/common"  # 进入 android12/common（内核根目录）
