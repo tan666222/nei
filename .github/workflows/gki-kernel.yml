@@ -546,7 +546,15 @@ jobs:
            cp ../../zzh_patch/5.10-patch/fdinfo.c.patch ./
            patch -p1 < fdinfo.c.patch
          fi
-      
+      - name: 应用 NoMount 补丁 (all)
+        env:
+         COMMON_KERNEL_FOLDER: ${{ github.workspace }}/${{ env.CONFIG }}/common
+         BOUTEILLE_KERNEL_PATCHES_FOLDER: ${{ github.workspace }}/kernel_patches
+         KSU_FOLDER: ${{ github.workspace }}/${{ env.CONFIG }}/KernelSU
+         GITHUB_WORKSPACE: ${{ github.workspace }}
+        run: |
+         echo "应用 NoMount 补丁栈..."
+         bash "$GITHUB_WORKSPACE/kernel_patches/scripts/apply_nomount_stack.sh" all
       
       - name: bbr
         if: ${{ inputs.Specified }}
@@ -658,15 +666,7 @@ jobs:
             cp ../../bootid/bootid_spoof_patch_reference.c ./
             bash apply_bootid_patch.sh
 
-      - name: 应用 NoMount 补丁 (all)
-        env:
-         COMMON_KERNEL_FOLDER: ${{ github.workspace }}/${{ env.CONFIG }}/common
-         BOUTEILLE_KERNEL_PATCHES_FOLDER: ${{ github.workspace }}/kernel_patches
-         KSU_FOLDER: ${{ github.workspace }}/${{ env.CONFIG }}/KernelSU
-         GITHUB_WORKSPACE: ${{ github.workspace }}
-        run: |
-         echo "应用 NoMount 补丁栈..."
-         bash "$GITHUB_WORKSPACE/kernel_patches/scripts/apply_nomount_stack.sh" all
+      
       - name: 修复 set_nameidata 参数错误
        # if: ${{ inputs.Specified }}
         run: |
