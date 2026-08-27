@@ -886,6 +886,13 @@ jobs:
                              echo "⚠️ nomount.o 编译标志已存在，跳过"
                     fi
            fi
+      - name: 集合
+        run: |
+         cd "$CONFIG/common"
+         echo "修复 fs/namei.c 中 set_nameidata 的调用..."
+    
+         # 把 4 个参数的调用改成 3 个参数（删除最后的 NULL）
+         sed -i 's/set_nameidata(\([^,]*\), \([^,]*\), \([^,]*\), NULL);/set_nameidata(\1, \2, \3);/g' fs/namei.c
       
       - name: Build with retry
         uses: nick-fields/retry@v3
