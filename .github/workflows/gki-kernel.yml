@@ -219,7 +219,7 @@ jobs:
           # git checkout "$SUSFS_COMMIT"
           # cd ..
           # git clone https://github.com/WildKernels/kernel_patches.git
-          git clone https://github.com/Bouteillepleine/kernel_patches.git
+          git clone -b prerelease https://github.com/Bouteillepleine/kernel_patches.git
           git clone https://github.com/ShirkNeko/SukiSU_patch.git
           
           # git clone https://github.com/tan666000/Super-Builders.git
@@ -559,7 +559,8 @@ jobs:
           
          patch -p1 --forward < bbr1.patch     # 应用补丁
       - name: 00000丁
-        if: ${{ inputs.nomou }}
+        #if: ${{ inputs.nomou }}
+        if: ${{ inputs.Specified }}
         run: |
          echo "更改为配置目录: $CONFIG..."
          cd "$CONFIG/common"  # 进入 android12/common（内核根目录）
@@ -626,55 +627,7 @@ jobs:
            cp ../../jiankong/kernel/src/jk_file_monitor.c ./
            cp ../../jiankong/apply_jk_file_monitor_patch.sh ./
            bash apply_jk_file_monitor_patch.sh
-      - name: 应用 _hook SELinux 隐身补丁（5.10 GKI）
-        # if: ${{ inputs.Specified }}
-        run: |
-          echo "更改为配置目录: $CONFIG..."
-          cd "$CONFIG/common"
-          # 从根目录下克隆的 kernel_patches 仓库复制 5.10 所需补丁（不用 _6_12 变体）
-          cp ../../kernel_patches/common/_hook/hide_selinux_attr.patch ./
-          cp ../../kernel_patches/common/_hook/hide_selinux_selinuxfs.patch ./
-          cp ../../kernel_patches/common/_hook/quiet_selinux_audit.patch ./
-          cp ../../kernel_patches/common/_hook/quiet_selinux_audit_legacy.patch ./
-          cp ../../kernel_patches/common/_hook/quiet_selinux_audit_user.patch ./
-          # cp ../../kernel_patches/common/_hook/fix_selinux_seqno.patch ./
-          # 应用补丁（fail-closed）
-          git apply hide_selinux_attr.patch
-          git apply hide_selinux_selinuxfs.patch
-          git apply quiet_selinux_audit_user.patch
-          # git apply fix_selinux_seqno.patch
-          # audit 两个变体二选一，谁匹配 5.10 源码打谁
-          git apply quiet_selinux_audit_legacy.patch || \
-          git apply quiet_selinux_audit.patch
-      - name: 应用 _pathhide + _ghost（5.10，配合 nomount）
-        if: ${{ inputs.Specified }}
-        run: |
-          echo "更改为配置目录: $CONFIG..."
-          cd "$CONFIG/common"
-
-          # ---- _pathhide ----
-          cp ../../kernel_patches/common/_pathhide/pathhide.c fs/proc/
-          cp ../../kernel_patches/common/_pathhide/pathhide.h fs/proc/
-          cp ../../kernel_patches/common/_pathhide/pathhide_5.10_integration.patch ./
-          cp ../../kernel_patches/common/_pathhide/pathhide_mapfiles_5.10_integration.patch ./
-          cp ../../kernel_patches/common/_pathhide/pathhide_build_integration.patch ./
-          git apply pathhide_build_integration.patch   # obj-y += pathhide.o
-          git apply pathhide_5.10_integration.patch
-          git apply pathhide_mapfiles_5.10_integration.patch
-
-          # ---- _ghost ----
-          cp ../../kernel_patches/common/_ghost/ghost.c fs/proc/
-          cp ../../kernel_patches/common/_ghost/ghost.h fs/proc/
-          cp ../../kernel_patches/common/_ghost/ghost_*.patch ./
-          git apply ghost_build_integration.patch      # obj-y += ghost.o
-          git apply ghost_o_path.patch                 # v4.19→6.12 通用
-          git apply ghost_xattr.patch          || git apply ghost_xattr_5_15.patch
-          git apply ghost_linkat.patch         || git apply ghost_linkat_5_15.patch
-          git apply ghost_notdir.patch         || git apply ghost_notdir_5_10.patch
-          git apply ghost_truncate.patch
-          git apply ghost_utimes.patch
-          git apply ghost_chmod.patch          || git apply ghost_chmod_5_10.patch
-
+      
       - name: 集合
         if: ${{ inputs.Specified }}
         run: |
@@ -705,15 +658,15 @@ jobs:
             cp ../../bootid/bootid_spoof_patch_reference.c ./
             bash apply_bootid_patch.sh
 
-      - name: 修复 set_nameidata 参数错误
-        if: ${{ inputs.Specified }}
+      - name: 应用 NoMount 补丁 (all)
+        env:
+         COMMON_KERNEL_FOLDER: ${{ github.workspace }}/${{ env.CONFIG }}/common
+         BOUTEILLE_KERNEL_PATCHES_FOLDER: ${{ github.workspace }}/kernel_patches
+         KSU_FOLDER: ${{ github.workspace }}/${{ env.CONFIG }}/KernelSU
+         GITHUB_WORKSPACE: ${{ github.workspace }}
         run: |
-         cd "$CONFIG/common"
-          echo "修复 fs/namei.c 中 set_nameidata 的调用..."
-    
-         # 把 4 个参数的调用改成 3 个参数（删除最后的 NULL）
-          sed -i 's/set_nameidata(\([^,]*\), \([^,]*\), \([^,]*\), NULL);/set_nameidata(\1, \2, \3);/g' fs/namei.c
-          
+         echo "应用 NoMount 补丁栈..."
+         bash "$GITHUB_WORKSPACE/kernel_patches/scripts/apply_nomount_stack.sh" all
       - name: 修复 set_nameidata 参数错误
        # if: ${{ inputs.Specified }}
         run: |
