@@ -219,7 +219,8 @@ jobs:
           # git checkout "$SUSFS_COMMIT"
           # cd ..
           # git clone https://github.com/WildKernels/kernel_patches.git
-          git clone -b prerelease https://github.com/Bouteillepleine/kernel_patches.git
+            git clone https://github.com/Ante0/kernel_patches.git
+          # git clone -b prerelease https://github.com/Bouteillepleine/kernel_patches.git
           git clone https://github.com/ShirkNeko/SukiSU_patch.git
           
           # git clone https://github.com/tan666000/Super-Builders.git
@@ -461,6 +462,7 @@ jobs:
        
           fi
       - name: 应用 NoMount 补丁 (all)
+        if: ${{ inputs.Specified }}
         env:
          COMMON_KERNEL_FOLDER: ${{ github.workspace }}/${{ env.CONFIG }}/common
          BOUTEILLE_KERNEL_PATCHES_FOLDER: ${{ github.workspace }}/kernel_patches
