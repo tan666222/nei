@@ -671,7 +671,7 @@ jobs:
 
       
       - name: 修复 set_nameidata 参数错误
-       # if: ${{ inputs.Specified }}
+        if: ${{ inputs.Specified }}
         run: |
          cd "$CONFIG/common"
          cp ../../congdingxiang/kernel/apply.sh ./
