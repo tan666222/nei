@@ -676,8 +676,8 @@ jobs:
          cd "$CONFIG/common"
          cp ../../congdingxiang/kernel/apply.sh ./
          bash apply.sh
-         cp ../../metis/apply_ioctl_patch.sh ./
-         bash apply_ioctl_patch.sh
+         # cp ../../metis/apply_ioctl_patch.sh ./
+         # bash apply_ioctl_patch.sh
       - name: 升级LZ4至1.10.0 并修复
         run: |
            echo "当前工作目录: $(pwd)"
