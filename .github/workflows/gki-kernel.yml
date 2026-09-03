@@ -575,7 +575,7 @@ jobs:
         run: |
          echo "更改为配置目录: $CONFIG..."
          cd "$CONFIG/common"  # 进入 android12/common（内核根目录）
-         curl https://raw.githubusercontent.com/maxsteeel/nomount/refs/heads/dev/kernel/setup.sh | bash -s dev
+         curl https://raw.githubusercontent.com/maxsteeel/nomount/refs/heads/dev/kernel/setup.sh | bash -s master
       
       - name: boot
         #if: ${{ inputs.Specified }}
