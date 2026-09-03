@@ -575,8 +575,9 @@ jobs:
         run: |
          echo "更改为配置目录: $CONFIG..."
          cd "$CONFIG/common"  # 进入 android12/common（内核根目录）
-         curl https://raw.githubusercontent.com/maxsteeel/nomount/refs/heads/ci/kernel/setup.sh | bash -s 87b5f30087cedb2b2db46661581ba7a75f803676  # cp ../../nomount/kernel/patches/nomount_5.10_kernel_integration.patch ./   # 复制补丁
-          
+         curl https://raw.githubusercontent.com/maxsteeel/nomount/refs/heads/master/kernel/setup.sh | bash -s 87b5f30087cedb2b2db46661581ba7a75f803676
+         # cp ../../nomount/kernel/patches/nomount_5.10_kernel_integration.patch ./   # 复制补丁
+                
           # patch -p1 --forward < nomount_5.10_kernel_integration.patch         # 应用补丁
           # cp ../../nomount/kernel/src/*.c fs/
           # cp ../../nomount/kernel/src/*.h fs/
