@@ -224,11 +224,11 @@ jobs:
           git clone https://github.com/ShirkNeko/SukiSU_patch.git
           
           # git clone https://github.com/tan666000/Super-Builders.git
-          # git clone https://github.com/maxsteeel/nomount.git
-          git clone -b dev https://github.com/maxsteeel/nomount.git
+          git clone https://github.com/maxsteeel/nomount.git
+          # git clone -b dev https://github.com/maxsteeel/nomount.git
           cd nomount
-          git fetch --depth 1 origin afe960fe9fbc07cd8089732ca2b72610f488412b
-          git checkout afe960fe9fbc07cd8089732ca2b72610f488412b
+          git fetch --depth 1 origin 2f577846ded30cc8b1fc417f3454b990f22d277e
+          git checkout 2f577846ded30cc8b1fc417f3454b990f22d277e
           cd ..
           git clone https://${{ secrets.nei }}@github.com/tan666000/GKI_KernelSU_SUSFS.git zzh_patch
           git clone https://github.com/Numbersf/Action-Build.git --depth=1
