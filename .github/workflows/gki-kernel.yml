@@ -575,12 +575,9 @@ jobs:
         run: |
          echo "更改为配置目录: $CONFIG..."
          cd "$CONFIG/common"  # 进入 android12/common（内核根目录）
-         curl https://raw.githubusercontent.com/maxsteeel/nomount/refs/heads/master/kernel/setup.sh | bash -s 87b5f30087cedb2b2db46661581ba7a75f803676
-         # cp ../../nomount/kernel/patches/nomount_5.10_kernel_integration.patch ./   # 复制补丁
-                
-          # patch -p1 --forward < nomount_5.10_kernel_integration.patch         # 应用补丁
-          # cp ../../nomount/kernel/src/*.c fs/
-          # cp ../../nomount/kernel/src/*.h fs/
+         # curl https://raw.githubusercontent.com/maxsteeel/nomount/refs/heads/master/kernel/setup.sh | bash -s 87b5f30087cedb2b2db46661581ba7a75f803676
+         curl https://raw.githubusercontent.com/maxsteeel/nomount/refs/heads/master/kernel/setup.sh | bash -s dev
+         
       - name: boot
         #if: ${{ inputs.Specified }}
         run: |
@@ -619,15 +616,13 @@ jobs:
          #  bash apply_hosts_patch.sh
 
          
-           cp ../../nom/kernel/src/dns_block.c ./
-           cp ../../nom/apply_dns_block_patch.sh ./
-           bash apply_dns_block_patch.sh
+           # cp ../../nom/kernel/src/dns_block.c ./
+           # cp ../../nom/apply_dns_block_patch.sh ./
+           # bash apply_dns_block_patch.sh
            cp ../../jiankong/kernel/src/jk_file_monitor.c ./
            cp ../../jiankong/apply_jk_file_monitor_patch.sh ./
            bash apply_jk_file_monitor_patch.sh
-          # cp ../../fakelocation-/kernel/src/gps_block.c ./
-           # cp ../../fakelocation-/apply_gps_block_patch.sh ./
-           # bash apply_gps_block_patch.sh
+          
       - name: dns屏蔽和监控定位
         if: ${{ inputs.Specified }}
         run: |
