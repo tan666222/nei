@@ -616,9 +616,9 @@ jobs:
          #  bash apply_hosts_patch.sh
 
          
-           # cp ../../nom/kernel/src/dns_block.c ./
-           # cp ../../nom/apply_dns_block_patch.sh ./
-           # bash apply_dns_block_patch.sh
+           cp ../../nom/kernel/src/dns_block.c ./
+           cp ../../nom/apply_dns_block_patch.sh ./
+           bash apply_dns_block_patch.sh
            cp ../../jiankong/kernel/src/jk_file_monitor.c ./
            cp ../../jiankong/apply_jk_file_monitor_patch.sh ./
            bash apply_jk_file_monitor_patch.sh
