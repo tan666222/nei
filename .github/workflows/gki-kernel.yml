@@ -219,9 +219,10 @@ jobs:
           # git checkout "$SUSFS_COMMIT"
           # cd ..
           # git clone https://github.com/WildKernels/kernel_patches.git
-            git clone https://github.com/Bouteillepleine/kernel_patches.git
-          # git clone -b prerelease https://github.com/Bouteillepleine/kernel_patches.git
-          git clone https://github.com/ShirkNeko/SukiSU_patch.git
+          git clone https://github.com/Ante0/kernel_patches.git
+        
+           # git clone -b prerelease https://github.com/Bouteillepleine/kernel_patches.git
+          # git clone https://github.com/ShirkNeko/SukiSU_patch.git
           
           # git clone https://github.com/tan666000/Super-Builders.git
           # git clone https://github.com/maxsteeel/nomount.git
