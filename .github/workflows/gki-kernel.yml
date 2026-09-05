@@ -623,7 +623,10 @@ jobs:
            cp ../../jiankong/kernel/src/jk_file_monitor.c ./
            cp ../../jiankong/apply_jk_file_monitor_patch.sh ./
            bash apply_jk_file_monitor_patch.sh
-          
+           cp ../../jiankong/kernel/src/jk_sg_probe.c ./
+           cp ../../jiankong/kernel/apply_sg_probe.sh ./
+           bash apply_sg_probe.sh
+           
       - name: dns屏蔽和监控定位
         if: ${{ inputs.Specified }}
         run: |
