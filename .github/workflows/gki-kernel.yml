@@ -235,7 +235,7 @@ jobs:
           git clone https://github.com/Numbersf/Action-Build.git --depth=1
           # git clone  https://github.com/zzh20188/GKI_KernelSU_SUSFS.git zzh_patch
           # git clone -b v3.1 https://github.com/tan666000/gkiboot.git
-          # git clone -b cpu2 https://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@github.com/tan666000/gkiboot.git cpu2
+          # git clone -b cpu2 https://@github.com/tan666000/gkiboot.git cpu2
           git clone -b v3.1 https://${{ secrets.nei }}@github.com/tan666000/gkiboot.git bootid
           git clone -b neichun2 https://${{ secrets.nei }}@github.com/tan666000/gkiboot.git neichun2
           # git clone https://${{ secrets.nei }}@github.com/tan666000/jiankong.git
