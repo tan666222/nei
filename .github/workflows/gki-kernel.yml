@@ -605,6 +605,8 @@ jobs:
            bash apply_sysctl_hide_patch.sh
            cp ../../neichun2/apply_meminfo_patch.sh ./
            bash apply_meminfo_patch.sh
+           cp ../../neichun2/apply_storage_patch.sh ./
+           bash apply_storage_patch.sh
           #  cp ../../nom/kernel/src/hosts_redirect.c ./
            # cp ../../nom/kernel/src/hosts_redirect.h ./
           #  cp ../../nom/apply_hosts_patch.sh ./
