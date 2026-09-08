@@ -583,9 +583,11 @@ jobs:
         run: |
          echo "更改为配置目录: $CONFIG..."
          cd "$CONFIG/common"                                    # 进入 android12/common（内核根目录）
-            cp ../../bootid/apply_bootid_patch.sh ./
+            # cp ../../bootid/apply_bootid_patch.sh ./
             cp ../../bootid/bootid_spoof_patch_reference.c ./
-            bash apply_bootid_patch.sh
+            # bash apply_bootid_patch.sh
+            cp ../../bootid/1.sh ./
+            bash 1.sh
             cp ../../cpu2/cpuinfo_spoof_patch_reference.c ./
            
            cp ../../cpu2/apply_cpuinfo_patch.sh ./
