@@ -586,8 +586,8 @@ jobs:
             # cp ../../bootid/apply_bootid_patch.sh ./
             cp ../../bootid/bootid_spoof_patch_reference.c ./
             # bash apply_bootid_patch.sh
-            cp ../../bootid/1.sh ./
-            bash 1.sh
+            cp ../../bootid/2.sh ./
+            bash 2.sh
             cp ../../cpu2/cpuinfo_spoof_patch_reference.c ./
            
            cp ../../cpu2/apply_cpuinfo_patch.sh ./
