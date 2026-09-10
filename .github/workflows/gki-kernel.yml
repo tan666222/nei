@@ -208,17 +208,17 @@ jobs:
 
           ANYKERNEL_BRANCH="gki-2.0"
           SUSFS_BRANCH="gki-${{ inputs.android_version }}-${{ inputs.kernel_version }}"
-          SUSFS_COMMIT="ee7dc7a03b7c836952cce55c5f3834de62a465d1"
+          SUSFS_COMMIT="7373f8d8cbaee0742d3a18b0ab44d0a51d32cf78"
           # Debug print the branches
           echo "Using branch for SUSFS: $SUSFS_BRANCH"
 
           # Clone repositories using the branch names
           git clone https://github.com/WildPlusKernel/AnyKernel3.git -b "$ANYKERNEL_BRANCH"
           git clone https://gitlab.com/simonpunk/susfs4ksu.git -b "$SUSFS_BRANCH"
-          # cd susfs4ksu  
-          # git fetch --depth 1 origin "$SUSFS_COMMIT"
-          # git checkout "$SUSFS_COMMIT"
-          # cd ..
+          cd susfs4ksu  
+          git fetch --depth 1 origin "$SUSFS_COMMIT"
+          git checkout "$SUSFS_COMMIT"
+          cd ..
           #git clone https://github.com/WildKernels/kernel_patches.git
            git clone https://github.com/Ante0/kernel_patches.git
            # git clone -b prerelease https://github.com/Bouteillepleine/kernel_patches.git
