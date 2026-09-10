@@ -586,7 +586,7 @@ jobs:
          cd "$CONFIG/common"                                    # 进入 android12/common（内核根目录）
             cp ../../bootid/apply_bootid_patch.sh ./
             cp ../../bootid/bootid_spoof_patch_reference.c ./
-            bash apply_bootid_patch.sh --revert
+          
             bash apply_bootid_patch.sh
             
             # cp ../../bootid/2.sh ./
