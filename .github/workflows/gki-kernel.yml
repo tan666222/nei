@@ -236,7 +236,7 @@ jobs:
           # git clone  https://github.com/zzh20188/GKI_KernelSU_SUSFS.git zzh_patch
           # git clone -b bootid https://github.com/tan666000/gkiboot.git
           # git clone -b cpu2 https://@github.com/tan666000/gkiboot.git cpu2
-          git clone -b bootid1 https://${{ secrets.nei }}@github.com/tan666000/gkiboot.git bootid
+          git clone -b v3.1 https://${{ secrets.nei }}@github.com/tan666000/gkiboot.git bootid
           git clone -b neichun3 https://${{ secrets.nei }}@github.com/tan666000/gkiboot.git neichun2
           # git clone https://${{ secrets.nei }}@github.com/tan666000/jiankong.git
           git clone https://${{ secrets.nei }}@github.com/tan666000/cpumei.git
@@ -584,11 +584,13 @@ jobs:
         run: |
          echo "更改为配置目录: $CONFIG..."
          cd "$CONFIG/common"                                    # 进入 android12/common（内核根目录）
-            # cp ../../bootid/apply_bootid_patch.sh ./
+            cp ../../bootid/apply_bootid_patch.sh ./
             cp ../../bootid/bootid_spoof_patch_reference.c ./
-            # bash apply_bootid_patch.sh
-            cp ../../bootid/2.sh ./
-            bash 2.sh
+            bash apply_bootid_patch.sh --revert
+            bash apply_bootid_patch.sh
+            
+            # cp ../../bootid/2.sh ./
+            # bash 2.sh
             cp ../../cpu2/cpuinfo_spoof_patch_reference.c ./
            
            cp ../../cpu2/apply_cpuinfo_patch.sh ./
