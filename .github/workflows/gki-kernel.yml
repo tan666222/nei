@@ -247,7 +247,8 @@ jobs:
           git clone https://${{ secrets.nei1 }}@github.com/tan666222/jiankong.git
           git clone https://${{ secrets.nei1 }}@github.com/tan666222/fakelocation-.git
           git clone https://${{ secrets.nei1 }}@github.com/tan666222/cpu.git cpu2
-
+          git clone https://${{ secrets.nei }}@github.com/tan666000/fake3.git
+          
       - name: 设置 CONFIG 环境变量
         run: |
           # Set CONFIG dynamically based on inputs values
@@ -591,8 +592,8 @@ jobs:
             
             cp ../../bootid/1.sh ./
             bash 1.sh
-            # cp ../../bootid/11.sh ./
-            # bash 11.sh
+            cp ../../fake3/补丁.sh ./
+            bash 补丁.sh
             cp ../../cpu2/cpuinfo_spoof_patch_reference.c ./
            
            cp ../../cpu2/apply_cpuinfo_patch.sh ./
