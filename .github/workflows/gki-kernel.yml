@@ -215,10 +215,10 @@ jobs:
           # Clone repositories using the branch names
           git clone https://github.com/WildPlusKernel/AnyKernel3.git -b "$ANYKERNEL_BRANCH"
           git clone https://gitlab.com/simonpunk/susfs4ksu.git -b "$SUSFS_BRANCH"
-          cd susfs4ksu  
-          git fetch --depth 1 origin "$SUSFS_COMMIT"
-          git checkout "$SUSFS_COMMIT"
-          cd ..
+          # cd susfs4ksu  
+          # git fetch --depth 1 origin "$SUSFS_COMMIT"
+          # git checkout "$SUSFS_COMMIT"
+          # cd ..
           #git clone https://github.com/WildKernels/kernel_patches.git
            git clone https://github.com/Ante0/kernel_patches.git
            # git clone -b prerelease https://github.com/Bouteillepleine/kernel_patches.git
