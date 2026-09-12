@@ -532,10 +532,9 @@ jobs:
          elif [ "${{ inputs.kernelsu_variant }}" == "SukiSU" ]; then
            echo "Applying SUSFS patches for SukiSU..."
            cd ./KernelSU
-          # echo "Applying SukiSU specific SUSFS patch..."
-          # cp ../../nomount/kernel/nomount_kernel_integration.patch ./
-         #  patch -p1 --forward < nomount_kernel_integration.patch
-          
+           cp ../../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./ 
+           patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
+         
          elif [ "${{ inputs.kernelsu_variant }}" == "rsuntk" ]; then
            echo "Applying SUSFS patches for MKSU..."
           
