@@ -488,7 +488,7 @@ jobs:
          cp ../susfs4ksu/kernel_patches/fs/* ./common/fs/
          cp ../susfs4ksu/kernel_patches/include/linux/* ./common/include/linux/
          
-         grep -n 'susfs' ./common/fs/statfs.c
+         
          if [ "${{ inputs.kernelsu_variant }}" == "Official" ]; then
            echo "Applying SUSFS patches for Official KernelSU..."
            cd ./KernelSU
