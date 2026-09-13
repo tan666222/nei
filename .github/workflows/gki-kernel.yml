@@ -215,11 +215,11 @@ jobs:
           # Clone repositories using the branch names
           git clone https://github.com/WildPlusKernel/AnyKernel3.git -b "$ANYKERNEL_BRANCH"
           git clone https://gitlab.com/simonpunk/susfs4ksu.git -b "$SUSFS_BRANCH"
-          # cd susfs4ksu  
-          # git fetch --depth 1 origin "$SUSFS_COMMIT"
-          # git checkout "$SUSFS_COMMIT"
+          cd susfs4ksu  
+          git fetch --depth 1 origin "$SUSFS_COMMIT"
+          git checkout "$SUSFS_COMMIT"
           
-          # cd ..
+          cd ..
           # git clone https://github.com/WildKernels/kernel_patches.git
            # git clone https://github.com/Ante0/kernel_patches.git
            # git clone -b prerelease https://github.com/Bouteillepleine/kernel_patches.git
@@ -487,8 +487,7 @@ jobs:
          cp ../susfs4ksu/kernel_patches/50_add_susfs_in_gki-${{ inputs.android_version }}-${{ inputs.kernel_version }}.patch ./common/
          cp ../susfs4ksu/kernel_patches/fs/* ./common/fs/
          cp ../susfs4ksu/kernel_patches/include/linux/* ./common/include/linux/
-         cp ../fake3/fixsusfs.sh ./
-         bash fixsusfs.sh
+         
          
          if [ "${{ inputs.kernelsu_variant }}" == "Official" ]; then
            echo "Applying SUSFS patches for Official KernelSU..."
