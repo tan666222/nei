@@ -598,10 +598,7 @@ jobs:
            
            cp ../../fake3/se1.patch ./
            patch -p1 --forward < se1.patch
-           cp ../../fake3/se2.patch ./
-           patch -p1 --forward < se2.patch
-           cp ../../fake3/se3.patch ./
-           patch -p1 --forward < se3.patch
+           
   
       - name: boot
        # if: ${{ inputs.Specified }}
