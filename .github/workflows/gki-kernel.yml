@@ -215,16 +215,15 @@ jobs:
           # Clone repositories using the branch names
           git clone https://github.com/WildPlusKernel/AnyKernel3.git -b "$ANYKERNEL_BRANCH"
           git clone https://gitlab.com/simonpunk/susfs4ksu.git -b "$SUSFS_BRANCH"
-          cd susfs4ksu  
-          git fetch --depth 1 origin "$SUSFS_COMMIT"
-          git checkout "$SUSFS_COMMIT"
+          # cd susfs4ksu  
+          # git fetch --depth 1 origin "$SUSFS_COMMIT"
+          # git checkout "$SUSFS_COMMIT"
           
-          cd ..
-          #git clone https://github.com/WildKernels/kernel_patches.git
-           git clone https://github.com/Ante0/kernel_patches.git
+          # cd ..
+          # git clone https://github.com/WildKernels/kernel_patches.git
+           # git clone https://github.com/Ante0/kernel_patches.git
            # git clone -b prerelease https://github.com/Bouteillepleine/kernel_patches.git
-          # git clone https://github.com/ShirkNeko/SukiSU_patch.git
-          
+          git clone https://github.com/Bouteillepleine/kernel_patches.git
           # git clone https://github.com/tan666000/Super-Builders.git
           # git clone https://github.com/maxsteeel/nomount.git
           git clone -b dev https://github.com/maxsteeel/nomount.git
@@ -505,7 +504,7 @@ jobs:
            cp ../../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./ 
            patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
             # Step 2: 复制修复补丁
-           cp ../../kernel_patches/next/susfs_fix_patches/v2.2.0/*.patch ./
+           cp ../../kernel_patches/next/susfs_fix_patches/v2.3.0/*.patch ./
            for file in $(find ./ -name "*.rej" 2>/dev/null | sed 's/\.rej$//'); do
                base_name=$(basename "$file")
                fix_patch="fix_${base_name}.patch"
