@@ -594,12 +594,10 @@ jobs:
        
         run: |
          echo "更改为配置目录: $CONFIG..."
-         cd "$CONFIG/KernelSU"
-           
-           cp ../../fake3/se1.patch ./
-           patch -p1 --forward < se1.patch
-           
-  
+         cd "$KERNEL_ROOT/KernelSU"
+         patch -p1 --forward < ../../../fake3/se1.patch
+     
+
       - name: boot
        # if: ${{ inputs.Specified }}
         run: |
