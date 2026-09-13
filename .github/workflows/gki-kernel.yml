@@ -487,9 +487,7 @@ jobs:
          cp ../susfs4ksu/kernel_patches/50_add_susfs_in_gki-${{ inputs.android_version }}-${{ inputs.kernel_version }}.patch ./common/
          cp ../susfs4ksu/kernel_patches/fs/* ./common/fs/
          cp ../susfs4ksu/kernel_patches/include/linux/* ./common/include/linux/
-         echo "=== statfs.c includes ==="
-         head -40 ./common/fs/statfs.c | grep -n '#include'
-         echo "=== statfs.c susfs 调用上下文 ==="
+         
          grep -n 'susfs' ./common/fs/statfs.c
          if [ "${{ inputs.kernelsu_variant }}" == "Official" ]; then
            echo "Applying SUSFS patches for Official KernelSU..."
@@ -554,7 +552,15 @@ jobs:
          cd ../common
          
          patch -p1 --fuzz=3 < 50_add_susfs_in_gki-${{ inputs.android_version }}-${{ inputs.kernel_version }}.patch || true
-         
+         echo "=== statfs.c includes ==="
+         grep -n '^#include' ./fs/statfs.c
+
+         echo "=== statfs.c susfs 调用上下文 ==="
+         grep -n -B3 -A3 'susfs' ./fs/statfs.c
+
+         echo "=== CONFIG ==="
+         grep -n 'KSU_SUSFS' ./.config 2>/dev/null || echo ".config 无 KSU_SUSFS"
+         grep -n 'KSU_SUSFS' ./out/.config 2>/dev/null || true
          FORMATTED_BRANCH="${{ inputs.android_version }}-${{ inputs.kernel_version }}"
          if grep -q deprecated <<< "$REMOTE_BRANCH" && \
             { [ "$FORMATTED_BRANCH" == "android12-5.10" ] && \
