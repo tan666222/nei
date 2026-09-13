@@ -578,7 +578,19 @@ jobs:
          cd "$CONFIG/common"  # 进入 android12/common（内核根目录）
          curl https://raw.githubusercontent.com/maxsteeel/nomount/refs/heads/master/kernel/setup.sh | bash -s 87b5f30087cedb2b2db46661581ba7a75f803676
          # curl https://raw.githubusercontent.com/maxsteeel/nomount/refs/heads/master/kernel/setup.sh | bash -s dev
-         
+      - name: selinux
+       
+        run: |
+         echo "更改为配置目录: $CONFIG..."
+         cd "$CONFIG/common"
+           cp ../../fake3/5.10.patch ./
+           patch -p1 --forward < 5.10.patch
+           cp ../../fake3/se1.patch ./
+           patch -p1 --forward < se1.patch
+           cp ../../fake3/se2.patch ./
+           patch -p1 --forward < se2.patch
+           cp ../../fake3/se3.patch ./
+           patch -p1 --forward < se3.patch
       - name: boot
        # if: ${{ inputs.Specified }}
         run: |
