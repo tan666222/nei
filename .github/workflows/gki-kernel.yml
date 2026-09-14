@@ -432,6 +432,8 @@ jobs:
         run: |
           echo "更改为配置目录: $CONFIG..."
           cd "$CONFIG"
+          echo "CONFIG_KSU=y" >> ./common/arch/arm64/configs/gki_defconfig
+       
 
           if [ "${{ inputs.kernelsu_variant }}" == "Official" ]; then
             echo "Adding KernelSU Official..."
@@ -585,7 +587,7 @@ jobs:
       
 
       - name: boot
-       # if: ${{ inputs.Specified }}
+        if: ${{ inputs.Specified }}
         run: |
          echo "更改为配置目录: $CONFIG..."
          cd "$CONFIG/common"                                    # 进入 android12/common（内核根目录）
@@ -723,27 +725,7 @@ jobs:
            if [ -f "fs/f2fs/Makefile" ] && ! grep -qF "f2fs-\$(CONFIG_F2FS_IOSTAT) += iostat.o" "fs/f2fs/Makefile"; then
                     echo "f2fs-\$(CONFIG_F2FS_IOSTAT) += iostat.o" >> "fs/f2fs/Makefile"
            fi
-      - name: 添加SUSFS配置设置
-        run: |
-          echo "更改为配置目录: $CONFIG..."
-          cd "$CONFIG"
-          echo "Adding configuration settings to gki_defconfig..."
-
-          # Add KSU configuration settings
-          echo "CONFIG_KSU=y" >> ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_KSU_SUSFS=y" >> ./common/arch/arm64/configs/gki_defconfig
-          if [ "${{ inputs.kernelsu_variant }}" == "Next" ]; then
-            
-               echo "CONFIG_KSU_SUSFS_SUS_SU=n" >> ./common/arch/arm64/configs/gki_defconfig
-          elif [ "${{ inputs.kernelsu_variant }}" == "SukiSU" ]; then
-            echo "CONFIG_KPM=n" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_KSU_SUSFS_SUS_SU=n" >> ./common/arch/arm64/configs/gki_defconfig
-            # = 多管理器 =
-            echo "CONFIG_KSU_MULTI_MANAGER_SUPPORT=y" >> ./common/arch/arm64/configs/gki_defconfig
-          elif [ "${{ inputs.kernelsu_variant }}" == "MU" ]; then
-            
-            echo "CONFIG_KSU=m" >> ./common/arch/arm64/configs/gki_defconfig
-          fi
+      
       - name: 添加SUSFS设置1
         if: ${{ inputs.susfs }}
         run: |
@@ -751,7 +733,7 @@ jobs:
           cd "$CONFIG"
           
           # Add SUSFS configuration settings
-            # echo "CONFIG_KSU_SUSFS_SUS_SU=n" >> ./common/arch/arm64/configs/gki_defconfig
+            
             echo "CONFIG_KSU_SUSFS=y" >> ./common/arch/arm64/configs/gki_defconfig
             echo "CONFIG_KSU_SUSFS_SUS_PATH=y" >> ./common/arch/arm64/configs/gki_defconfig
             echo "CONFIG_KSU_SUSFS_SUS_MOUNT=y" >> ./common/arch/arm64/configs/gki_defconfig
@@ -762,11 +744,8 @@ jobs:
             echo "CONFIG_KSU_SUSFS_SPOOF_CMDLINE_OR_BOOTCONFIG=y" >> ./common/arch/arm64/configs/gki_defconfig
             echo "CONFIG_KSU_SUSFS_OPEN_REDIRECT=y" >> ./common/arch/arm64/configs/gki_defconfig
             echo "CONFIG_KSU_SUSFS_SUS_MAP=y" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_KSU_SUSFS_AUTO_ADD_SUS_KSU_DEFAULT_MOUNT=y" >> ./common/arch/arm64/configs/gki_defconfig
-            echo "CONFIG_KSU_SUSFS_AUTO_ADD_SUS_BIND_MOUNT=y" >> ./common/arch/arm64/configs/gki_defconfig
             echo "CONFIG_PHOTO_GUARD=y" >> ./common/arch/arm64/configs/gki_defconfig
-           # echo "CONFIG_GPS_BLOCK=y" >> ./common/arch/arm64/configs/gki_defconfig
-   
+           
       
 
       - name: 各种添加功能
