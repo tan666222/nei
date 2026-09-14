@@ -590,7 +590,8 @@ jobs:
             # cp ../../bootid/bootid_spoof_patch_reference.c ./
           
             # bash apply_bootid_patch.sh
-            
+            cp ../../bootid/11.sh ./
+            bash 11.sh
             cp ../../bootid/1.sh ./
             bash 1.sh
             cp ../../fake3/补丁.sh ./
