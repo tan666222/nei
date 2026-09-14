@@ -550,6 +550,7 @@ jobs:
          patch -p1 --fuzz=3 < 50_add_susfs_in_gki-${{ inputs.android_version }}-${{ inputs.kernel_version }}.patch || true
          # 在 workflow 中 patch 之后加：
          sed -i '/^static int susfs_statfs_by_dentry/i\extern int susfs_sus_kstat_spoof_vfs_statfs(struct inode *inode, struct kstatfs *buf, bool *is_fuse);' fs/statfs.c
+         sed -i '0,/^#include/s//&\n#include <linux\/security.h>/' fs/susfs.c
 
          # 验证修改确实生效了
          grep -n "susfs_sus_kstat_spoof_vfs_statfs" fs/statfs.c
