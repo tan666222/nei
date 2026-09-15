@@ -574,7 +574,7 @@ jobs:
          # curl https://raw.githubusercontent.com/maxsteeel/nomount/refs/heads/master/kernel/setup.sh | bash -s dev
       
       - name: 应用 NoMount 补丁 (all)
-        #if: ${{ inputs.Specified }}
+        if: ${{ inputs.Specified }}
         env:
          COMMON_KERNEL_FOLDER: ${{ github.workspace }}/${{ env.CONFIG }}/common
          BOUTEILLE_KERNEL_PATCHES_FOLDER: ${{ github.workspace }}/kernel_patches
