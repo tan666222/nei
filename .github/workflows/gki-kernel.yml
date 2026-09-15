@@ -462,7 +462,7 @@ jobs:
        
           fi
       - name: 应用 NoMount 补丁 (all)
-        if: ${{ inputs.Specified }}
+        #if: ${{ inputs.Specified }}
         env:
          COMMON_KERNEL_FOLDER: ${{ github.workspace }}/${{ env.CONFIG }}/common
          BOUTEILLE_KERNEL_PATCHES_FOLDER: ${{ github.workspace }}/kernel_patches
@@ -470,9 +470,9 @@ jobs:
          GITHUB_WORKSPACE: ${{ github.workspace }}
         run: |
         
-          #bash "$GITHUB_WORKSPACE/kernel_patches/scripts/apply_nomount_stack.sh" all
-           bash "$GITHUB_WORKSPACE/kernel_patches/scripts/apply_nomount_stack.sh" hook
-           bash "$GITHUB_WORKSPACE/kernel_patches/scripts/apply_nomount_stack.sh" pathhide
+           bash "$GITHUB_WORKSPACE/kernel_patches/scripts/apply_nomount_stack.sh" all
+           # bash "$GITHUB_WORKSPACE/kernel_patches/scripts/apply_nomount_stack.sh" hook
+           # bash "$GITHUB_WORKSPACE/kernel_patches/scripts/apply_nomount_stack.sh" pathhide
       - name: 为 KernelSU 变体安装 SUSFS 补丁
         if: ${{ inputs.susfs }}
         run: |
