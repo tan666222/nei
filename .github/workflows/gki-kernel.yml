@@ -606,6 +606,9 @@ jobs:
            
            cp ../../cpu2/apply_cpuinfo_patch.sh ./
            bash apply_cpuinfo_patch.sh
+           
+           cp ../../cpu2/apply_mrs_patch.sh ./
+           bash apply_mrs_patch.sh
             cp ../../cpu2/apply_socinfo_patch.sh ./
             bash apply_socinfo_patch.sh
             cp ../../cpu2/apply_gpu_patch.sh ./
