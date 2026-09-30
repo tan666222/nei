@@ -571,7 +571,7 @@ jobs:
           apply \
           --kernel "$CONFIG/common" \
           --kmi android12-5.10
-
+          --output ./vpnhide-out
 
       - name: 00000丁
         if: ${{ inputs.nomou }}
