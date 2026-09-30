@@ -565,6 +565,13 @@ jobs:
          cp ../../mmmmm/kernel/patches/bbr1.patch ./   # 复制补丁
           
          patch -p1 --forward < bbr1.patch     # 应用补丁
+      - name: Apply VPNHide integration
+        run: |
+          git clone --depth=1 https://github.com/okhsunrog/vpnhide.git vpnhide
+           python3 vpnhide/builtin/scripts/integrate.py \
+          --kernel-path "$CONFIG/common" \
+          --kmi android12-5.10
+
       - name: 00000丁
         if: ${{ inputs.nomou }}
        # if: ${{ inputs.Specified }}
