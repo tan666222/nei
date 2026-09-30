@@ -567,7 +567,7 @@ jobs:
          patch -p1 --forward < bbr1.patch     # 应用补丁
       - name: Apply VPNHide integration
         run: |
-          python3 builtin/scripts/integrate.py \
+          python3 vpnhide/builtin/scripts/integrate.py \
           apply \
           --kernel "$CONFIG/common" \
           --kmi android12-5.10
