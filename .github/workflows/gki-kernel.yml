@@ -221,8 +221,8 @@ jobs:
           
           # cd ..
           # git clone https://github.com/WildKernels/kernel_patches.git
-          # git clone https://github.com/Ante0/kernel_patches.git
-          git clone https://github.com/FRTI64/kernel_patches.git
+          git clone https://github.com/Ante0/kernel_patches.git
+          # git clone https://github.com/FRTI64/kernel_patches.git
           # git clone https://github.com/Bouteillepleine/kernel_patches.git
           # git clone https://github.com/tan666000/Super-Builders.git
           # git clone https://github.com/maxsteeel/nomount.git
@@ -486,7 +486,7 @@ jobs:
              # cp ../../kernel_patches/wild/ksun-293ca01-susfs-v2.1.0-a14-6.1-ef16cbce.patch ./
            # patch -p1 --forward < ksun-293ca01-susfs-v2.1.0-a14-6.1-ef16cbce.patch || true
          
-         elif [ "${{ inputs.kernelsu_variant }}" == "Next" ]; then
+         elif [ "${{ inputs.kernelsu_variant }}" == "Nex6t" ]; then
            # 临时恢复KSU-NEXT的dev编译
            
            cd ./KernelSU-Next
@@ -507,10 +507,14 @@ jobs:
             patch -p1 --forward < ksu_toolkit.patch || true
             
            #  echo "Applying SUSFS patches for 6666.."
-          elif [ "${{ inputs.kernelsu_variant }}" == "Ne6xt" ]; then
+          elif [ "${{ inputs.kernelsu_variant }}" == "Next" ]; then
                
              cd ./KernelSU-Next
-             
+             cp ../../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./ 
+             patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
+             cp ../../kernel_patches/ksu/susfs_fix_patches/susfs4ksu.patch
+             patch -p1 --forward < susfs4ksu.patch || true
+            
               # 临时恢复KSU-NEXT的dev编译
          elif [ "${{ inputs.kernelsu_variant }}" == "MKSU" ]; then
            echo "Applying SUSFS patches for MKSU..."
