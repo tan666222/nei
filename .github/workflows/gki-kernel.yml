@@ -443,8 +443,8 @@ jobs:
             
           elif [ "${{ inputs.kernelsu_variant }}" == "Next" ]; then
             echo "Adding KernelSU Next..."
-            curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/refs/heads/dev/kernel/setup.sh" | bash -s dev
-           # curl -LSs "https://raw.githubusercontent.com/pershoot/KernelSU-Next/dev-susfs/kernel/setup.sh" | bash -s dev-susfs
+            # curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/refs/heads/dev/kernel/setup.sh" | bash -s dev
+            curl -LSs "https://raw.githubusercontent.com/pershoot/KernelSU-Next/dev-susfs/kernel/setup.sh" | bash -s dev-susfs
 
              
           elif [ "${{ inputs.kernelsu_variant }}" == "MKSU" ]; then
@@ -482,17 +482,7 @@ jobs:
            cd ./KernelSU
            cp ../../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./ 
            patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
-           cp ../../kernel_patches/ksu/susfs_fix_patches/susfs4ksu.patch ./
-           patch -p1 --forward < susfs4ksu.patch || true
-           cp ../../kernel_patches/next/susfs_fix_patches/v2.2.0/*.patch ./
-           for file in $(find ./ -name "*.rej" 2>/dev/null | sed 's/\.rej$//'); do
-               base_name=$(basename "$file")
-               fix_patch="fix_${base_name}.patch"
-               if [ -f "$fix_patch" ]; then
-                  echo "Fixing $base_name with $fix_patch"
-                  patch -p1 --forward < "$fix_patch" || true
-               fi
-            done
+           
             
          elif [ "${{ inputs.kernelsu_variant }}" == "Nex6t" ]; then
            # 临时恢复KSU-NEXT的dev编译
