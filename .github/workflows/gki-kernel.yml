@@ -221,8 +221,8 @@ jobs:
           
           # cd ..
           # git clone https://github.com/WildKernels/kernel_patches.git
-          git clone https://github.com/Ante0/kernel_patches.git
-          # git clone https://github.com/FRTI64/kernel_patches.git
+          # git clone https://github.com/Ante0/kernel_patches.git
+          git clone https://github.com/FRTI64/kernel_patches.git
           # git clone https://github.com/Bouteillepleine/kernel_patches.git
           # git clone https://github.com/tan666000/Super-Builders.git
           # git clone https://github.com/maxsteeel/nomount.git
@@ -482,7 +482,15 @@ jobs:
            cd ./KernelSU
            cp ../../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./ 
            patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
-           
+           cp ../../kernel_patches/next/susfs_fix_patches/v2.3.0/*.patch ./
+           for file in $(find ./ -name "*.rej" 2>/dev/null | sed 's/\.rej$//'); do
+               base_name=$(basename "$file")
+               fix_patch="fix_${base_name}.patch"
+               if [ -f "$fix_patch" ]; then
+                  echo "Fixing $base_name with $fix_patch"
+                  patch -p1 --forward < "$fix_patch" || true
+               fi
+            done
              # cp ../../kernel_patches/wild/ksun-293ca01-susfs-v2.1.0-a14-6.1-ef16cbce.patch ./
            # patch -p1 --forward < ksun-293ca01-susfs-v2.1.0-a14-6.1-ef16cbce.patch || true
          
