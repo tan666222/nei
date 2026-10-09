@@ -482,7 +482,9 @@ jobs:
            cd ./KernelSU
            cp ../../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./ 
            patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
-           
+           cp ../../kernel_patches/ksu/susfs_fix_patches/susfs4ksu.patch ./
+           patch -p1 --forward < susfs4ksu.patch || true
+            
             
          elif [ "${{ inputs.kernelsu_variant }}" == "Nex6t" ]; then
            # 临时恢复KSU-NEXT的dev编译
