@@ -508,8 +508,8 @@ jobs:
           elif [ "${{ inputs.kernelsu_variant }}" == "Next" ]; then
                
              cd ./KernelSU-Next
-             cp ../../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./ 
-             patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
+            # cp ../../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./ 
+            # patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
              
               # 临时恢复KSU-NEXT的dev编译
          elif [ "${{ inputs.kernelsu_variant }}" == "MKSU" ]; then
