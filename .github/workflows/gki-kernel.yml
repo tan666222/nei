@@ -449,9 +449,9 @@ jobs:
              
           elif [ "${{ inputs.kernelsu_variant }}" == "MKSU" ]; then
             echo "Adding KernelSU MKSU..."
-            curl -LSs "https://raw.githubusercontent.com/pershoot/KernelSU-Next/refs/heads/dev-susfs/kernel/setup.sh" | bash $BRANCH
+            curl -LSs "https://raw.githubusercontent.com/pershoot/KernelSU-Next/refs/heads/dev-susfs/kernel/setup.sh" | bash -s dev-susfs
           
-            curl -LSs "https://raw.githubusercontent.com/5ec1cff/KernelSU/dev/kernel/setup.sh" | bash  $BRANCH
+             # curl -LSs "https://raw.githubusercontent.com/5ec1cff/KernelSU/dev/kernel/setup.sh" | bash  $BRANCH
           elif [ "${{ inputs.kernelsu_variant }}" == "SukiSU" ]; then
             echo "Adding KernelSU SukiSU..."
             curl -LSs "https://raw.githubusercontent.com/ReSukiSU/ReSukiSU/main/kernel/setup.sh" | bash  $BRANCH
@@ -484,7 +484,7 @@ jobs:
            patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
            
             
-         elif [ "${{ inputs.kernelsu_variant }}" == "Nex6t" ]; then
+         elif [ "${{ inputs.kernelsu_variant }}" == "Next" ]; then
            # 临时恢复KSU-NEXT的dev编译
            
            cd ./KernelSU-Next
@@ -505,7 +505,7 @@ jobs:
             patch -p1 --forward < ksu_toolkit.patch || true
             
            #  echo "Applying SUSFS patches for 6666.."
-          elif [ "${{ inputs.kernelsu_variant }}" == "Next" ]; then
+          elif [ "${{ inputs.kernelsu_variant }}" == "Ne6xt" ]; then
                
              cd ./KernelSU-Next
             # cp ../../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./ 
@@ -515,9 +515,7 @@ jobs:
          elif [ "${{ inputs.kernelsu_variant }}" == "MKSU" ]; then
            echo "Applying SUSFS patches for MKSU..."
            cd ./KernelSU
-           cp ../../nomount/susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./
-           patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
-         
+           
          elif [ "${{ inputs.kernelsu_variant }}" == "SukiSU" ]; then
            echo "Applying SUSFS patches for SukiSU..."
            cd ./KernelSU
