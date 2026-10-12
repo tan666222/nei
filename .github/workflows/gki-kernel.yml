@@ -489,7 +489,7 @@ jobs:
            cd ./KernelSU-Next
            cp ../../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./ 
            patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
-            # Step 2: 复制修复补丁
+           
            cp ../../kernel_patches/next/susfs_fix_patches/v2.2.0/*.patch ./
            for file in $(find ./ -name "*.rej" 2>/dev/null | sed 's/\.rej$//'); do
                base_name=$(basename "$file")
@@ -499,6 +499,10 @@ jobs:
                   patch -p1 --forward < "$fix_patch" || true
                fi
             done
+            find . -name "*.rej"
+
+            echo "===== 最终 init.c.rej（如果还在）====="
+            cat kernel/core/init.c.rej 2>/dev/null
             
             # patch -p1 --forward < susfs_extras.patch || true
             patch -p1 --forward < ksu_toolkit.patch || true
