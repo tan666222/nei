@@ -508,12 +508,7 @@ jobs:
             patch -p1 --forward < ksu_toolkit.patch || true
             
            #  echo "Applying SUSFS patches for 6666.."
-          elif [ "${{ inputs.kernelsu_variant }}" == "Next" ]; then
-               
-             cd ./KernelSU-Next
-             cp ../../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./ 
-             patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
-             elif [ "${{ inputs.kernelsu_variant }}" == "Next" ]; then
+            elif [ "${{ inputs.kernelsu_variant }}" == "Next" ]; then
                     # 临时恢复KSU-NEXT的dev编译
                     cd ./KernelSU-Next
 
