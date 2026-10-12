@@ -483,7 +483,7 @@ jobs:
            patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
            
             
-         elif [ "${{ inputs.kernelsu_variant }}" == "Next" ]; then
+         elif [ "${{ inputs.kernelsu_variant }}" == "Ne6xt" ]; then
            # 临时恢复KSU-NEXT的dev编译
            
            cd ./KernelSU-Next
@@ -508,12 +508,46 @@ jobs:
             patch -p1 --forward < ksu_toolkit.patch || true
             
            #  echo "Applying SUSFS patches for 6666.."
-          elif [ "${{ inputs.kernelsu_variant }}" == "Ne6xt" ]; then
+          elif [ "${{ inputs.kernelsu_variant }}" == "Next" ]; then
                
              cd ./KernelSU-Next
-            # cp ../../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./ 
-            # patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
-             
+             cp ../../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./ 
+             patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
+             elif [ "${{ inputs.kernelsu_variant }}" == "Next" ]; then
+                    # 临时恢复KSU-NEXT的dev编译
+                    cd ./KernelSU-Next
+
+                    # 1) 官方 SUSFS 补丁（失败是预期内的，先容忍）
+                    cp ../../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./
+                    patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
+
+                    # 2) 拷 fix 补丁，并记录阶段1失败的文件；然后清掉这一阶段的 .rej
+                    #    （patch 成功时不会删旧 .rej，留着会干扰后面判断，所以先删）
+                    fix_dir="../../kernel_patches/next/susfs_fix_patches/v2.2.0"
+                    cp "$fix_dir"/*.patch ./
+                    find . -name '*.rej' | sed 's/\.rej$//' | sort -u > /tmp/stage1_rej.txt
+                    find . -name '*.rej' -delete
+
+                    # 3) 对每个阶段1失败的文件，打对应的 fix 补丁
+                    while read -r file; do
+                             base_name=$(basename "$file")
+                             fix_patch="fix_${base_name}.patch"
+                             if [ -f "$fix_patch" ]; then
+                                      echo "Fixing $base_name with $fix_patch"
+                                      patch -p1 --forward < "$fix_patch" || true
+                             fi
+                    done < /tmp/stage1_rej.txt
+
+                    # 4) 还有 .rej = 真的没修干净，直接失败，别再往下编译
+                    remain=$(find . -name '*.rej')
+                    if [ -n "$remain" ]; then
+                             echo "::error::patch rejects remain — 补丁未打干净:"
+                             echo "$remain"
+                             [ -f kernel/core/init.c.rej ] && cat kernel/core/init.c.rej
+                             exit 1
+                    fi
+
+                    echo "All SUSFS patches applied cleanly."
               # 临时恢复KSU-NEXT的dev编译
          elif [ "${{ inputs.kernelsu_variant }}" == "MKSU" ]; then
            echo "Applying SUSFS patches for MKSU..."
