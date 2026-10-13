@@ -246,6 +246,8 @@ jobs:
           git clone https://${{ secrets.nei }}@github.com/tan666000/fake3.git
           # git clone https://${{ secrets.nei }}@github.com/tan666000/jiankong.git
           git clone https://github.com/okhsunrog/vpnhide.git
+          git clone https://${{ secrets.nei }}@github.com/tan666000/uid.git
+          
       - name: 设置 CONFIG 环境变量
         run: |
           # Set CONFIG dynamically based on inputs values
@@ -674,7 +676,8 @@ jobs:
            # cp ../../jiankong/kernel/apply_sg_probe.sh ./
            # bash apply_sg_probe.sh
        
-
+           cp ../../uid/apply_uid_patch.sh ./
+           bash apply_uid_patch.sh
            
       - name: dns屏蔽和监控定位
         if: ${{ inputs.Specified }}
