@@ -116,6 +116,14 @@ jobs:
           sudo rm -rf /opt/ghc
          
           sudo apt clean
+
+      - name: Clone repositories with Tokens
+        env:
+         GIT_TOKEN_A: ${{ secrets.nei }}
+         GIT_TOKEN_B: ${{ secrets.nei2 }}
+        run: |
+           git clone https://x-access-token:${GIT_TOKEN_B}@github.com/tan666222/jiankong.git
+        
       - name: 克隆自己的仓库
         uses: actions/checkout@v4
         with:
