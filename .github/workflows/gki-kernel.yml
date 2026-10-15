@@ -117,13 +117,7 @@ jobs:
          
           sudo apt clean
 
-      - name: Clone repositories with Tokens
-        env:
-         GIT_TOKEN_A: ${{ secrets.nei }}
-         GIT_TOKEN_B: ${{ secrets.nei2 }}
-        run: |
-           git clone https://x-access-token:${GIT_TOKEN_B}@github.com/tan666222/jiankong.git
-        
+      
       - name: 克隆自己的仓库
         uses: actions/checkout@v4
         with:
@@ -212,7 +206,7 @@ jobs:
       - name: 克隆 AnyKernel3 和其他依赖项
         env:
           GIT_TOKEN_A: ${{ secrets.nei }}
-          GIT_TOKEN_B: ${{ secrets.nei2 }}
+          GIT_TOKEN_B: ${{ secrets.nei1 }}
         run: |
           echo "Cloning AnyKernel3 and other dependencies..."
 
