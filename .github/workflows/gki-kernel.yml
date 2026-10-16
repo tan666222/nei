@@ -491,32 +491,16 @@ jobs:
            patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
            
             
-         elif [ "${{ inputs.kernelsu_variant }}" == "Ne6xt" ]; then
+         elif [ "${{ inputs.kernelsu_variant }}" == "Next" ]; then
            # 临时恢复KSU-NEXT的dev编译
            
            cd ./KernelSU-Next
            cp ../../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./ 
            patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
            
-           cp ../../kernel_patches/next/susfs_fix_patches/v2.2.0/*.patch ./
-           for file in $(find ./ -name "*.rej" 2>/dev/null | sed 's/\.rej$//'); do
-               base_name=$(basename "$file")
-               fix_patch="fix_${base_name}.patch"
-               if [ -f "$fix_patch" ]; then
-                  echo "Fixing $base_name with $fix_patch"
-                  patch -p1 --forward < "$fix_patch" || true
-               fi
-            done
-            find . -name "*.rej"
-
-            echo "===== 最终 init.c.rej（如果还在）====="
-            cat kernel/core/init.c.rej 2>/dev/null
-            
-            # patch -p1 --forward < susfs_extras.patch || true
-            patch -p1 --forward < ksu_toolkit.patch || true
-            
-           #  echo "Applying SUSFS patches for 6666.."
-            elif [ "${{ inputs.kernelsu_variant }}" == "Next" ]; then
+           
+           
+            elif [ "${{ inputs.kernelsu_variant }}" == "Ne6xt" ]; then
                     # 临时恢复KSU-NEXT的dev编译
                     cd ./KernelSU-Next
 
@@ -627,7 +611,7 @@ jobs:
         run: |
         
            # bash "$GITHUB_WORKSPACE/kernel_patches/scripts/apply_nomount_stack.sh" all
-           # bash "$GITHUB_WORKSPACE/kernel_patches/scripts/apply_nomount_stack.sh" hook
+           bash "$GITHUB_WORKSPACE/kernel_patches/scripts/apply_nomount_stack.sh" hook
            bash "$GITHUB_WORKSPACE/kernel_patches/scripts/apply_nomount_stack.sh" pathhide
            bash "$GITHUB_WORKSPACE/kernel_patches/scripts/apply_nomount_stack.sh" ghost
 
