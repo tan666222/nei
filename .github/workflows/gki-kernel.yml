@@ -225,9 +225,9 @@ jobs:
           
           # cd ..
           # git clone https://github.com/WildKernels/kernel_patches.git
-          # git clone https://github.com/Ante0/kernel_patches.git
+          git clone https://github.com/Ante0/kernel_patches.git
           # git clone https://github.com/FRTI64/kernel_patches.git
-          git clone https://github.com/Bouteillepleine/kernel_patches.git
+          # git clone https://github.com/Bouteillepleine/kernel_patches.git
           # git clone https://github.com/tan666000/Super-Builders.git
           # git clone https://github.com/maxsteeel/nomount.git
           
@@ -510,7 +510,7 @@ jobs:
 
                     # 2) 拷 fix 补丁，并记录阶段1失败的文件；然后清掉这一阶段的 .rej
                     #    （patch 成功时不会删旧 .rej，留着会干扰后面判断，所以先删）
-                    fix_dir="../../kernel_patches/next/susfs_fix_patches/v2.3.0"
+                    fix_dir="../../kernel_patches/next/susfs_fix_patches/v2.2.0"
                     cp "$fix_dir"/*.patch ./
                     find . -name '*.rej' | sed 's/\.rej$//' | sort -u > /tmp/stage1_rej.txt
                     find . -name '*.rej' -delete
