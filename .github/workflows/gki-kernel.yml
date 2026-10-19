@@ -387,7 +387,7 @@ jobs:
 
       
       - name: 确定 KernelSU 的分支
-        #if: ${{ inputs.Specified }}
+        if: ${{ inputs.susfs }}
         run: |
          branch_input="${{ inputs.kernelsu_branch }}"
          variant_input="${{ inputs.kernelsu_variant }}"
@@ -438,7 +438,7 @@ jobs:
                ;;
          esac
       - name: 添加 KernelSU
-        if: ${{ inputs.Specified }}
+        if: ${{ inputs.susfs }}
         run: |
           echo "更改为配置目录: $CONFIG..."
           cd "$CONFIG"
