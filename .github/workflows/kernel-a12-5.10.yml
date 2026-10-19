@@ -85,7 +85,7 @@ jobs:
       matrix:
         include:
           - sub_level: "240"
-            os_patch_level: "android12-5.10"
+            os_patch_level: "android13-5.15"
     
     uses: ./.github/workflows/gki-kernel.yml
     secrets: inherit
