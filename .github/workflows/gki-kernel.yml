@@ -489,6 +489,7 @@ jobs:
            cd ./KernelSU
            cp ../../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./ 
            patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
+           sed -i 's/\bclose_fd(fd);/ksu_close_fd(fd);/g' kernel/preinit/preinit.c
            
             
          elif [ "${{ inputs.kernelsu_variant }}" == "Ne6xt" ]; then
