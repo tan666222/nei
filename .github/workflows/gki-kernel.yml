@@ -577,16 +577,16 @@ jobs:
            patch -p1 < fdinfo.c.patch
          fi
       
-      - name: bbr
-        if: ${{ inputs.Specified }}
+      - name: unicode
+        #if: ${{ inputs.Specified }}
         run: |
          echo "更改为配置目录: $CONFIG..."
          cd "$CONFIG/common"                                    # 进入 android12/common（内核根目录）
-         # cp ../../kernel_patches/common/unicode_bypass_fix_6.1-.patch ./   # 复制补丁
-         # patch -p1 --forward < unicode_bypass_fix_6.1-.patch         # 应用补丁
-         cp ../../mmmmm/kernel/patches/bbr1.patch ./   # 复制补丁
+         cp ../../kernel_patches/common/unicode_bypass_fix_6.1-.patch ./   # 复制补丁
+         patch -p1 --forward < unicode_bypass_fix_6.1-.patch         # 应用补丁
+         # cp ../../mmmmm/kernel/patches/bbr1.patch ./   # 复制补丁
           
-         patch -p1 --forward < bbr1.patch     # 应用补丁
+         # patch -p1 --forward < bbr1.patch     # 应用补丁
       - name: Apply VPNHide integration
         run: python3 vpnhide/builtin/scripts/integrate.py apply --kernel "$CONFIG/common" --kmi android12-5.10 --output ./vpnhide-out
 
