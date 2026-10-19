@@ -387,7 +387,7 @@ jobs:
 
       
       - name: 确定 KernelSU 的分支
-        if: ${{ inputs.Specified }}
+        #if: ${{ inputs.Specified }}
         run: |
          branch_input="${{ inputs.kernelsu_branch }}"
          variant_input="${{ inputs.kernelsu_variant }}"
