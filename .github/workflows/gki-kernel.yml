@@ -839,7 +839,8 @@ jobs:
           # 用于debug config
           tail -n 40 ./common/arch/arm64/configs/gki_defconfig
       
-             
+          echo "CONFIG_FUSE_BPF=y" >> ./common/arch/arm64/configs/gki_defconfig
+       
 
       
       
