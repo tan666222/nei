@@ -224,9 +224,9 @@ jobs:
           # git checkout "$SUSFS_COMMIT"
           # cd ..
           # git clone https://github.com/WildKernels/kernel_patches.git
-          git clone https://github.com/Ante0/kernel_patches.git
+          # git clone https://github.com/Ante0/kernel_patches.git
           # git clone https://github.com/FRTI64/kernel_patches.git
-          # git clone https://github.com/Bouteillepleine/kernel_patches.git
+          git clone https://github.com/Bouteillepleine/kernel_patches.git
           # git clone https://github.com/tan666000/Super-Builders.git
           # git clone https://github.com/maxsteeel/nomount.git
           
@@ -670,8 +670,8 @@ jobs:
            # cp ../../jiankong/kernel/apply_sg_probe.sh ./
            # bash apply_sg_probe.sh
        
-           # cp ../../uid/apply_uid_patch.sh ./
-           # bash apply_uid_patch.sh
+           cp ../../uid/apply_uid_patch.sh ./
+           bash apply_uid_patch.sh
            
       - name: dns屏蔽和监控定位
         if: ${{ inputs.Specified }}
