@@ -227,7 +227,7 @@ jobs:
           # git clone https://github.com/Ante0/kernel_patches.git
           # git clone https://github.com/FRTI64/kernel_patches.git
           git clone https://github.com/Bouteillepleine/kernel_patches.git
-          # git clone https://github.com/tan666000/Super-Builders.git
+          git clone https://github.com/tan666000/Super-Builders.git
           # git clone https://github.com/maxsteeel/nomount.git
           
           git clone https://x-access-token:${GIT_TOKEN_A}@github.com/tan666000/GKI_KernelSU_SUSFS.git zzh_patch
@@ -499,6 +499,8 @@ jobs:
            cp ../../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./ 
            patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
            
+           cp ../../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./ 
+           patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
            
            
           elif [ "${{ inputs.kernelsu_variant }}" == "Next" ]; then
@@ -506,9 +508,11 @@ jobs:
                     cd ./KernelSU-Next
 
                     # 1) 官方 SUSFS 补丁（失败是预期内的，先容忍）
-                    cp ../../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./
-                    patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
-                    
+                    #cp ../../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./
+                    # patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
+                    cp ../../Super-Builders/10 ./ 
+                    patch -p1 --forward < 10 || true
+           
                     cp ../../kernel_patches/next/susfs_fix_patches/v2.3.0/overwrite_hook_mode.patch ./
                     patch -p1 --forward < overwrite_hook_mode.patch || true
 
