@@ -508,12 +508,12 @@ jobs:
                     # 1) 官方 SUSFS 补丁（失败是预期内的，先容忍）
                     cp ../../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./
                     patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
-                    cp ../../../../kernel_patches/next/susfs_fix_patches/v2.3.0/* ./
+                    cp ../../kernel_patches/next/susfs_fix_patches/v2.3.0/overwrite_hook_mode.patch ./
                     patch -p1 --forward < overwrite_hook_mode.patch || true
 
                     # 2) 拷 fix 补丁，并记录阶段1失败的文件；然后清掉这一阶段的 .rej
                     #    （patch 成功时不会删旧 .rej，留着会干扰后面判断，所以先删）
-                    fix_dir="../../kernel_patches/next/susfs_fix_patches/v2.2.0"
+                    fix_dir="../../kernel_patches/next/susfs_fix_patches/v2.3.0"
                     cp "$fix_dir"/*.patch ./
                     find . -name '*.rej' | sed 's/\.rej$//' | sort -u > /tmp/stage1_rej.txt
                     find . -name '*.rej' -delete
