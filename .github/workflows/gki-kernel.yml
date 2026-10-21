@@ -508,6 +508,8 @@ jobs:
                     # 1) 官方 SUSFS 补丁（失败是预期内的，先容忍）
                     cp ../../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./
                     patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
+                    sed -i 's/\bclose_fd(/ksu_close_fd(/g; s/ksuksu_close_fd/ksu_close_fd/g' ./KernelSU/kernel/preinit/preinit.c
+
                     cp ../../kernel_patches/next/susfs_fix_patches/v2.3.0/overwrite_hook_mode.patch ./
                     patch -p1 --forward < overwrite_hook_mode.patch || true
 
