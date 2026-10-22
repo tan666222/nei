@@ -94,9 +94,9 @@ runs:
         HERMETIC_PAHOLE="${{ github.workspace }}/${{ inputs.kernel_dir }}/build/build-tools/path/linux-x86/pahole"
         if [ -L "$HERMETIC_PAHOLE" ] || [ -f "$HERMETIC_PAHOLE" ]; then
           cat > "$HERMETIC_PAHOLE" <<EOF
-#!/bin/sh
-exec "$REAL_PAHOLE" --skip_encoding_btf_enum64 --skip_encoding_btf_decl_tag --skip_encoding_btf_type_tag "\$@"
-EOF
+        #!/bin/sh
+        exec "$REAL_PAHOLE" --skip_encoding_btf_enum64 --skip_encoding_btf_decl_tag --skip_encoding_btf_type_tag "\$@"
+        EOF
           chmod +x "$HERMETIC_PAHOLE"
           echo "Wrote wrapper $HERMETIC_PAHOLE -> $REAL_PAHOLE"
           "$HERMETIC_PAHOLE" --version
