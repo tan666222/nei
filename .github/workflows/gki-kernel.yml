@@ -881,7 +881,56 @@ jobs:
 
            grep -E "DEBUG_INFO_BTF|BPF_EVENTS|KPROBE_EVENTS|UPROBE|FUSE_BPF" "$DEFCONFIG"
       
-      
+      - name: 准备 BTF 构建环境 (补丁 + dd + pahole 1.31)
+        run: |
+           set -euo pipefail
+           KROOT="$CONFIG"
+           KCOMMON="$KROOT/common"
+           cd "$KCOMMON"
+
+           # --- 1) android12-5.10 必需的两个构建补丁（取自 WildKernels 仓库）---
+           BPF_PATCH_BASE="https://raw.githubusercontent.com/WildKernels/GKI_KernelSU_SUSFS/main/.github/actions/btf/patches"
+           curl -LSsO "$BPF_PATCH_BASE/0001-libbpf-remove-feature-detection-BTF.patch"
+           curl -LSsO "$BPF_PATCH_BASE/0002-resolve_btfids-inherit-host-linker-flags.patch"
+           patch -p1 -N < 0001-libbpf-remove-feature-detection-BTF.patch
+           patch -p1 -N < 0002-resolve_btfids-inherit-host-linker-flags.patch
+
+           # --- 2) hermetic PATH 里没有 /usr/bin，gen_btf 需要 dd ---
+           grep -q '^ADDITIONAL_HOST_TOOLS=' build.config.gki.aarch64 || \
+                    echo 'ADDITIONAL_HOST_TOOLS="${ADDITIONAL_HOST_TOOLS} dd"' >> build.config.gki.aarch64
+
+           # --- 3) 源码编译 pahole 1.31 ---
+           sudo apt-get install -y -qq cmake gcc libdw-dev libelf-dev zlib1g-dev dwarves
+           PAHOLE_SRC="$HOME/dwarves"
+           rm -rf "$PAHOLE_SRC"
+           for i in 1 2 3 4 5; do
+                    git clone --depth 1 --branch v1.31 https://github.com/acmel/dwarves.git "$PAHOLE_SRC" && break
+                    rm -rf "$PAHOLE_SRC"; sleep 5
+           done
+           mkdir -p "$PAHOLE_SRC/build"
+           cd "$PAHOLE_SRC/build"
+           cmake -D__LIB=lib -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release .. >/dev/null
+           make -j"$(nproc)" pahole
+           sudo make install pahole
+           sudo ldconfig
+           REAL_PAHOLE="$(command -v pahole)"
+           "$REAL_PAHOLE" --version
+
+           # --- 4) 覆盖 hermetic 路径下的 pahole，强制丢弃新的 BTF kind（老 libbpf 解析不了）---
+           HERMETIC_PAHOLE="$KROOT/build/build-tools/path/linux-x86/pahole"
+           if [ -e "$HERMETIC_PAHOLE" ]; then
+                    rm -f "$HERMETIC_PAHOLE"
+                    cat << 'EOF' > "$HERMETIC_PAHOLE"
+
+           exec "$REAL_PAHOLE" --skip_encoding_btf_enum64 --skip_encoding_btf_decl_tag --skip_encoding_btf_type_tag "$@"
+           EOF
+                    chmod +x "$HERMETIC_PAHOLE"
+                    echo "已包装 $HERMETIC_PAHOLE"
+                    "$HERMETIC_PAHOLE" --version
+           else
+                    echo "::warning::$HERMETIC_PAHOLE 不存在，改用 PATH 中的 pahole"
+                    echo "/usr/local/bin" >> "$GITHUB_PATH"
+           fi
       - name: 配置内核构时间/删除dirty字符
         run: |
           echo "更改为配置目录: $CONFIG..."
