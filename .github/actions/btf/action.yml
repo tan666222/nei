@@ -33,6 +33,21 @@ runs:
         set -euo pipefail
         patch -p1 -N < ${{ github.action_path }}/patches/0002-resolve_btfids-inherit-host-linker-flags.patch
 
+    - name: Pass EXTRA_CFLAGS to libsubcmd build (glibc >=2.38 fix)
+      shell: bash
+      working-directory: ${{ github.workspace }}/${{ inputs.kernel_dir }}/common
+      if: inputs.version == 'android12-5.10'
+      run: |
+        set -euo pipefail
+        # 0002 patch 只把 EXTRA_CFLAGS 传给了 libbpf, libsubcmd 的递归 make 继承不到.
+        # glibc 2.38+ 下 strtol 被重定向为 __isoc23_strtol, 必须通过 hermetic 头文件路径
+        # (来自 $(KBUILD_HOSTCFLAGS)) 让 libsubcmd 也看到正确的 stdlib.h.
+        sed -i 's|$(Q)$(MAKE) -C $(SUBCMD_SRC) OUTPUT=$(abspath $(dir $@))/ $(abspath $@)|$(Q)$(MAKE) -C $(SUBCMD_SRC) OUTPUT=$(abspath $(dir $@))/ EXTRA_CFLAGS="$(CFLAGS)" $(abspath $@)|' \
+          tools/bpf/resolve_btfids/Makefile
+        grep -q 'SUBCMD_SRC) OUTPUT=.*EXTRA_CFLAGS' tools/bpf/resolve_btfids/Makefile \
+          || { echo "::error::libsubcmd EXTRA_CFLAGS 注入失败"; exit 1; }
+        echo "libsubcmd: EXTRA_CFLAGS injected"
+
     - name: Apply ANDROID_KABI_USE macro fix (android12-5.10, sublevel 43)
       shell: bash
       working-directory: ${{ github.workspace }}/${{ inputs.kernel_dir }}/common
