@@ -868,7 +868,7 @@ jobs:
            }
 
            # BTF：需要 DEBUG_INFO(已有) + pahole(下一步装)
-           set_cfg CONFIG_DEBUG_INFO_BTF y
+           # set_cfg CONFIG_DEBUG_INFO_BTF y
            # eBPF 事件/探针
            set_cfg CONFIG_BPF_EVENTS y
            set_cfg CONFIG_KPROBE_EVENTS y
@@ -931,31 +931,7 @@ jobs:
                     echo "::warning::$HERMETIC_PAHOLE 不存在，改用 PATH 中的 pahole"
                     echo "/usr/local/bin" >> "$GITHUB_PATH"
            fi
-      - name: 修复 glibc>=2.38 下 resolve_btfids 链接失败
-        run: |
-           set -euo pipefail
-           cd "$CONFIG/common"
-
-           echo "[*] glibc: $(ldd --version | head -n1)"
-
-           # 1) 确保 0002 已生效，否则 CFLAGS 不含 hermetic 头文件路径
-           if ! grep -q 'CFLAGS  := $(KBUILD_HOSTCFLAGS)' tools/bpf/resolve_btfids/Makefile; then
-                    echo "[*] 补打 0002 补丁"
-                    curl -LSsO https://raw.githubusercontent.com/WildKernels/GKI_KernelSU_SUSFS/main/.github/actions/btf/patches/0002-resolve_btfids-inherit-host-linker-flags.patch
-                    patch -p1 -N < 0002-resolve_btfids-inherit-host-linker-flags.patch
-           fi
-
-           # 2) 把 CFLAGS 传给 libsubcmd（AOSP 修法）
-           sed -i 's|$(Q)$(MAKE) -C $(SUBCMD_SRC) OUTPUT=$(abspath $(dir $@))/ $(abspath $@)|$(Q)$(MAKE) -C $(SUBCMD_SRC) EXTRA_CFLAGS="$(CFLAGS)" OUTPUT=$(abspath $(dir $@))/ $(abspath $@)|' \
-                    tools/bpf/resolve_btfids/Makefile
-
-           # 3) 校验
-           grep -q 'SUBCMD_SRC) EXTRA_CFLAGS="$(CFLAGS)"' tools/bpf/resolve_btfids/Makefile \
-                    || { echo "::error::libsubcmd EXTRA_CFLAGS 注入失败"; grep -n 'SUBCMD_SRC' tools/bpf/resolve_btfids/Makefile; exit 1; }
-           echo "[+] libsubcmd 已继承 CFLAGS"
-
-           # 4) 清掉上次失败留下的 host tool 目标文件，防止 make 复用旧的 .o
-           rm -rf "$CONFIG"/out/*/common/tools/bpf/resolve_btfids 2>/dev/null || true
+      
       - name: 配置内核构时间/删除dirty字符
         run: |
           echo "更改为配置目录: $CONFIG..."
@@ -1013,21 +989,7 @@ jobs:
         #  else
           # 关键：修改5.10内核Makefile中的主版本号（239→209）
       
-      - name: 修复 nomount.c 的 C90 编译错误（仅限该文件）
-        run: |
-           echo "更改为配置目录: $CONFIG..."
-           cd "$CONFIG/common"
-
-           if [ -f "fs/Makefile" ]; then
-                    # 检查是否已存在，避免重复添加
-                    if ! grep -q "CFLAGS_nomount.o" fs/Makefile; then
-                             echo "# 修复 nomount.c 的 C90 标准警告" >> fs/Makefile
-                             echo "CFLAGS_nomount.o := -Wno-declaration-after-statement" >> fs/Makefile
-                             echo "✅ 已为 nomount.o 添加编译豁免"
-                    else
-                             echo "⚠️ nomount.o 编译标志已存在，跳过"
-                    fi
-           fi
+      
       - name: 集合
         run: |
          cd "$CONFIG/common"
