@@ -1,0 +1,151 @@
+name: 'Enable BPF Stack (BTF + eBPF + FUSE-BPF)'
+description: 'Enable CONFIG_DEBUG_INFO_BTF + eBPF events + FUSE-BPF for android12-5.10'
+inputs:
+  version:
+    description: '内核版本 (判断用 e.g., android12-5.10)'
+    required: true
+  kernel_dir:
+    description: '实际内核源码目录名 (e.g., android12-5.10-240)'
+    required: true
+  kernel_version:
+    description: 'Kernel version (e.g., 5.10)'
+    required: true
+  sublevel:
+    description: 'Kernel sublevel (e.g., 240)'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Apply libbpf feature-detection fix (android12-5.10)
+      shell: bash
+      working-directory: ${{ github.workspace }}/${{ inputs.kernel_dir }}/common
+      if: inputs.version == 'android12-5.10'
+      run: |
+        set -euo pipefail
+        patch -p1 -N < ${{ github.action_path }}/patches/0001-libbpf-remove-feature-detection-BTF.patch
+
+    - name: Apply resolve_btfids linker-flag fix (android12-5.10)
+      shell: bash
+      working-directory: ${{ github.workspace }}/${{ inputs.kernel_dir }}/common
+      if: inputs.version == 'android12-5.10'
+      run: |
+        set -euo pipefail
+        patch -p1 -N < ${{ github.action_path }}/patches/0002-resolve_btfids-inherit-host-linker-flags.patch
+
+    - name: Expose host dd for hermetic BTF generation (android12-5.10)
+      shell: bash
+      working-directory: ${{ github.workspace }}/${{ inputs.kernel_dir }}/common
+      if: inputs.version == 'android12-5.10'
+      run: |
+        set -euo pipefail
+        grep -q '^ADDITIONAL_HOST_TOOLS=' build.config.gki.aarch64 || \
+          echo 'ADDITIONAL_HOST_TOOLS="${ADDITIONAL_HOST_TOOLS} dd"' >> build.config.gki.aarch64
+
+    - name: Build and use pahole >=1.26 (android12-5.10)
+      shell: bash
+      working-directory: ${{ github.workspace }}/${{ inputs.kernel_dir }}
+      if: inputs.version == 'android12-5.10'
+      run: |
+        set -euo pipefail
+        ok=0
+        for attempt in 1 2 3; do
+          if sudo apt-get install -y -qq cmake gcc libdw-dev libelf-dev zlib1g-dev dwarves; then ok=1; break; fi
+          echo "apt install attempt $attempt failed; repairing dpkg state..." >&2
+          sudo dpkg --configure -a >/dev/null 2>&1 || true
+          sleep 5
+        done
+        [ "$ok" = "1" ] || { echo "ERROR: pahole build deps install failed after 3 attempts" >&2; exit 100; }
+
+        PAHOLE_SRC="$HOME/dwarves"
+        rm -rf "$PAHOLE_SRC"
+        for i in 1 2 3 4 5; do
+          if git clone --depth 1 --branch v1.31 https://github.com/acmel/dwarves.git "$PAHOLE_SRC"; then
+            break
+          fi
+          echo "dwarves clone attempt $i failed; retrying in 5s" >&2
+          rm -rf "$PAHOLE_SRC"; sleep 5
+        done
+        [ -d "$PAHOLE_SRC/.git" ] || { echo "ERROR: dwarves clone failed after 5 attempts." >&2; exit 1; }
+
+        mkdir -p "$PAHOLE_SRC/build"
+        cd "$PAHOLE_SRC/build"
+        cmake -D__LIB=lib -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release .. >/dev/null
+        make -j"$(nproc)" pahole
+        sudo make install pahole
+        sudo ldconfig
+        REAL_PAHOLE="$(command -v pahole)"
+        echo "pahole built at $REAL_PAHOLE"
+        "$REAL_PAHOLE" --version
+
+        HERMETIC_PAHOLE="${{ github.workspace }}/${{ inputs.kernel_dir }}/build/build-tools/path/linux-x86/pahole"
+        if [ -L "$HERMETIC_PAHOLE" ] || [ -f "$HERMETIC_PAHOLE" ]; then
+          cat > "$HERMETIC_PAHOLE" <<EOF
+#!/bin/sh
+exec "$REAL_PAHOLE" --skip_encoding_btf_enum64 --skip_encoding_btf_decl_tag --skip_encoding_btf_type_tag "\$@"
+EOF
+          chmod +x "$HERMETIC_PAHOLE"
+          echo "Wrote wrapper $HERMETIC_PAHOLE -> $REAL_PAHOLE"
+          "$HERMETIC_PAHOLE" --version
+        else
+          echo "WARNING: $HERMETIC_PAHOLE not found; leaving prebuilt pahole in place"
+        fi
+
+    - name: Enable BTF Config
+      shell: bash
+      working-directory: ${{ github.workspace }}/${{ inputs.kernel_dir }}/common
+      run: |
+        set -euo pipefail
+        DEFCONFIG="arch/arm64/configs/gki_defconfig"
+        apply() {
+          local key="$1" val="$2"
+          if grep -q "^$key=" "$DEFCONFIG"; then
+            sed -i "s|^$key=.*|$key=$val|" "$DEFCONFIG"
+          elif grep -q "^# $key is not set" "$DEFCONFIG"; then
+            sed -i "s|^# $key is not set|$key=$val|" "$DEFCONFIG"
+          else
+            echo "$key=$val" >> "$DEFCONFIG"
+          fi
+        }
+        apply CONFIG_DEBUG_INFO_BTF y
+
+    - name: Enable eBPF Kernel Configs
+      shell: bash
+      working-directory: ${{ github.workspace }}/${{ inputs.kernel_dir }}/common
+      run: |
+        set -euo pipefail
+        DEFCONFIG="arch/arm64/configs/gki_defconfig"
+        apply() {
+          local key="$1" val="$2"
+          if grep -q "^$key=" "$DEFCONFIG"; then
+            sed -i "s|^$key=.*|$key=$val|" "$DEFCONFIG"
+          elif grep -q "^# $key is not set" "$DEFCONFIG"; then
+            sed -i "s|^# $key is not set|$key=$val|" "$DEFCONFIG"
+          else
+            echo "$key=$val" >> "$DEFCONFIG"
+          fi
+        }
+        apply CONFIG_BPF_EVENTS y
+        apply CONFIG_KPROBE_EVENTS y
+        apply CONFIG_UPROBES y
+        apply CONFIG_UPROBE_EVENTS y
+
+    - name: Enable FUSE-BPF Kernel Config
+      shell: bash
+      working-directory: ${{ github.workspace }}/${{ inputs.kernel_dir }}/common
+      run: |
+        set -euo pipefail
+        DEFCONFIG="arch/arm64/configs/gki_defconfig"
+        apply() {
+          local key="$1" val="$2"
+          if grep -q "^$key=" "$DEFCONFIG"; then
+            sed -i "s|^$key=.*|$key=$val|" "$DEFCONFIG"
+          elif grep -q "^# $key is not set" "$DEFCONFIG"; then
+            sed -i "s|^# $key is not set|$key=$val|" "$DEFCONFIG"
+          else
+            echo "$key=$val" >> "$DEFCONFIG"
+          fi
+        }
+        apply CONFIG_FUSE_FS y
+        apply CONFIG_BPF_SYSCALL y
+        apply CONFIG_FUSE_BPF y
