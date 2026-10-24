@@ -922,6 +922,16 @@ jobs:
          # 把 4 个参数的调用改成 3 个参数（删除最后的 NULL）
          sed -i 's/set_nameidata(\([^,]*\), \([^,]*\), \([^,]*\), NULL);/set_nameidata(\1, \2, \3);/g' fs/namei.c
       
+      - name: 清理源码树残留 (防止 in-tree make 触发 mrproper 检查)
+        run: |
+          cd "$CONFIG/common"
+          [ -e .config ] && echo "::warning::源码树残留 .config —— 有步骤跑过 in-tree make"
+          [ -d include/config ] && echo "::warning::源码树残留 include/config/ —— 有步骤跑过 in-tree make"
+          [ -d include/generated ] && echo "::warning::源码树残留 include/generated/"
+          rm -f .config
+          rm -rf include/config include/generated
+          echo "源码树已清理"
+
       - name: Build with retry
         uses: nick-fields/retry@v3
         with:
