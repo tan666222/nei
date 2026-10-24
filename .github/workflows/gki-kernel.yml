@@ -619,8 +619,8 @@ jobs:
         run: |
         
            # bash "$GITHUB_WORKSPACE/kernel_patches/scripts/apply_nomount_stack.sh" all
-           bash "$GITHUB_WORKSPACE/kernel_patches/scripts/apply_nomount_stack.sh" hook
-           bash "$GITHUB_WORKSPACE/kernel_patches/scripts/apply_nomount_stack.sh" pathhide
+           # bash "$GITHUB_WORKSPACE/kernel_patches/scripts/apply_nomount_stack.sh" hook
+           # bash "$GITHUB_WORKSPACE/kernel_patches/scripts/apply_nomount_stack.sh" pathhide
            bash "$GITHUB_WORKSPACE/kernel_patches/scripts/apply_nomount_stack.sh" ghost
 
       - name: boot
