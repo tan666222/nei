@@ -462,7 +462,7 @@ jobs:
              # curl -LSs "https://raw.githubusercontent.com/5ec1cff/KernelSU/dev/kernel/setup.sh" | bash  $BRANCH
           elif [ "${{ inputs.kernelsu_variant }}" == "SukiSU" ]; then
             echo "Adding KernelSU SukiSU..."
-            curl -LSs "https://raw.githubusercontent.com/ReSukiSU/ReSukiSU/main/kernel/setup.sh" | bash  $BRANCH
+            curl -LSs "https://raw.githubusercontent.com/baka-su/bakasu/main/kernel/setup.sh" | bash  $BRANCH
             
           elif [ "${{ inputs.kernelsu_variant }}" == "rsuntk" ]; then
             echo "Adding KernelSU www..."
