@@ -515,7 +515,7 @@ jobs:
                     # cp ../../Super-Builders/10 ./ 
                     # patch -p1 --forward < 10 || true
            
-                    cp ../../kernel_patches/next/susfs_fix_patches/v2.3.0/overwrite_hook_mode.patch ./
+                    cp ../../kernel_patches/next/susfs_fix_patches/v2.4.0/overwrite_hook_mode.patch ./
                     patch -p1 --forward < overwrite_hook_mode.patch || true
                     cp ../../kernel_patches/next/susfs_fix_patches/v2.3.0/preinit_close_fd.patch ./
                     patch -p1 --forward < preinit_close_fd.patch || true
