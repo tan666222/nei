@@ -846,6 +846,7 @@ jobs:
 
       
       - name: Enable BPF Stack (BTF + eBPF + FUSE-BPF)
+        if: ${{ inputs.Specified }}
         uses: ./.github/actions/btf
         with:
           version: ${{ inputs.android_version }}-${{ inputs.kernel_version }}
